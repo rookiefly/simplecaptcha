@@ -1,11 +1,6 @@
-This directory contains the Grails application used to test SimpleCaptcha. It requires two libraries, included in the download: imaging.jar and simplecaptcha.jar. These need to be in the lib/ directory before the app will run. You can either copy them there, or create symbolic links to them if your OS supports it:
+This directory contains the Grails application used to test SimpleCaptcha. To run:
 
-    # ln -s ../../../lib/imaging.jar .
-    # ln -s ../../../dist/simplecaptcha.jar .
-
-Then to run:
-
-    grails run-app
+    # grails run-app
 
 Once it has started simply browse to:
 

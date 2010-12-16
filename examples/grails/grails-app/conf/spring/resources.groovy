@@ -1,8 +1,8 @@
 import nl.captcha.CaptchaBean
 
-def bb = new grails.spring.BeanBuilder()
+beans = {
+    println "in resources.groovy..."
 
-bb.beans {   
     defaultText(nl.captcha.text.producer.DefaultTextProducer) { bean ->
         bean.singleton = false
     }
@@ -18,6 +18,6 @@ bb.beans {
 
     chineseCaptchaBean(CaptchaBean, 230, 50) { bean ->
         txtProd = chineseText
-        bean.addBorder = true
+        addBorder = true
     }
 }
