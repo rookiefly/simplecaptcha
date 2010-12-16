@@ -1,0 +1,69 @@
+---
+title:      SimpleCaptcha - Installing
+created_at: 2009-02-10 11:21:53.587078 -06:00
+filter:
+  - erb
+  - textile
+---
+h2. Installing
+
+Installing SimpleCaptcha is no different than installing most other libraries for a J2EE container: a jar is deployed to WEB-INF/lib and web.xml is updated. These steps are described in detail below.
+
+# <a href="http://downloads.sourceforge.net/simplecaptcha/SimpleCaptcha-1.1.jar?use_mirror=">Download SimpleCaptcha</a>
+# Copy the jar file to your WEB-INF/lib directory
+# Add a mapping to web.xml. There are three servlets provided out of the box: <code>StickyCaptchaServlet</code>, <code>SimpleCaptchaServlet</code>, and <code>ChineseCaptchaServlet</code>. All generate CAPTCHA image/answer pairs, but <code>StickyCaptchaServlet</code> and <code>ChineseCaptchaServlet</code> are "sticky" to the user's session: page reloads will render the same CAPTCHA instead of generating a new one. An example mapping for StickyCaptchaServlet:
+
+<% uv :lang => "xml", :theme => 'twilight' do -%>
+    <servlet>
+        <servlet-name>StickyCaptcha</servlet-name>
+        <servlet-class>nl.captcha.servlet.StickyCaptchaServlet</servlet-class>
+        <init-param>
+            <param-name>width</param-name>
+            <param-value>250</param-value>
+        </init-param>
+        <init-param>
+            <param-name>height</param-name>
+            <param-value>75</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>StickyCaptcha</servlet-name>
+        <url-pattern>/stickyImg</url-pattern>
+    </servlet-mapping>
+<% end -%>
+
+The @width@ and @height@ parameters are optional; if unprovided the image will default to 200x50.
+
+<ol start="4">
+<li>Restart your webserver.</li>
+<li>Browse to the location given by the @url-pattern@ defined in @web.xml@, e.g., @http://localhost:8080/stickyImg@. If everything has been set up correctly you should see a CAPTCHA image.</li>
+<li>Now create a JSP called <code>captcha.jsp</code>. Add the following code inside the <code><body></code> element:
+ 
+<% uv :lang => "asp", :theme => 'spacecadet' do -%>
+    <img src="/stickyImg" />
+    <form action="/captchaSubmit.jsp" method="post">
+        <input name="answer" />
+    </form>
+<% end -%>
+
+</li>
+
+<li>Create another JSP called <code>captchaSubmit.jsp</code>. Add the following:
+
+<% uv :lang => "java", :theme => 'spacecadet' do -%>
+    <%="<"%>%@ page import="nl.captcha.Captcha" %>
+    ...
+    <%="<"%>% // We're doing this in a JSP here, but in your own app you'll want to put
+    // this logic in your MVC framework of choice.
+    Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
+    request.setCharacterEncoding("UTF-8"); // Do this so we can capture non-Latin chars
+    String answer = request.getParameter("answer");
+    if (captcha.isCorrect(answer)) { %>
+        <b>Correct!</b>
+    <%="<"%>% } %>
+<% end -%>
+</li>
+<li>Browse to <code>/captcha.jsp</code>. You should get your CAPTCHA image, as well as a form for entering your answer. Submit the form and see what happens.
+</ol>
+

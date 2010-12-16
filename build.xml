@@ -1,0 +1,31 @@
+<project basedir="." default="build-jar" name="SimpleCaptcha">
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.5"/>
+
+    <path id="SimpleCaptcha.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="/usr/apache-tomcat-6.0.18/lib/servlet-api.jar"/>
+        <pathelement location="lib/imaging.jar"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="Java/src" excludes="**/*.launch, **/*.java"/>
+            <fileset dir="Java/test" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    </target>
+
+    <target name="build-project" depends="init">
+        <echo message="${ant.project.name}: ${ant.file}, target: ${target}"/>
+        <javac destdir="bin" source="1.6" target="1.5">
+            <src path="Java/src"/>
+            <classpath refid="SimpleCaptcha.classpath"/>
+        </javac>
+    </target>
+
+	<target name="build-jar" depends="build-project">
+		<jar destfile="dist/SimpleCaptcha.jar" basedir="bin" />
+	</target>
+</project>
+

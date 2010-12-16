@@ -1,0 +1,10 @@
+# SITE.xpaths << '/html/body//img[@usemap]'
+# SITE.base = 'http://homepage.mac.com/james.childers/sc-doc'
+
+task :default => :build
+
+desc 'deploy the site to the webserver'
+task :deploy => [:build, 'deploy:rsync']
+
+
+# EOF
