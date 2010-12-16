@@ -1,0 +1,6 @@
+.DS_Store?
+*.class
+.metadata/
+CVS/
+bin/
+stacktrace.log

@@ -1,1 +1,1 @@
-SimpleCaptcha - A Java library for creating CAPTCHA random challenge/answer pairs and images.
+SimpleCaptcha - A Java library for creating CAPTCHAs for J2EE applications, including Spring MVC, Struts, and Grails.
