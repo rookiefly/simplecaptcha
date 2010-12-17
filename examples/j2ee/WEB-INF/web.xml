@@ -21,6 +21,6 @@
 		<url-pattern>/stickyCaptcha.jpg</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>SimpleCapchaExample.jsp</welcome-file>
+		<welcome-file>simpleCaptcha.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>

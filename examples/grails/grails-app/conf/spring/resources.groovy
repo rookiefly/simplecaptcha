@@ -1,8 +1,6 @@
 import nl.captcha.CaptchaBean
 
 beans = {
-    println "in resources.groovy..."
-
     defaultText(nl.captcha.text.producer.DefaultTextProducer) { bean ->
         bean.singleton = false
     }

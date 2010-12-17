@@ -2,6 +2,7 @@
 *.class
 .metadata/
 .cvsignore
+docs/output/
 CVS/
 bin/
 stacktrace.log

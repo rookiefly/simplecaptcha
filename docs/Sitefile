@@ -1,5 +1,6 @@
-# SITE.xpaths << '/html/body//img[@usemap]'
-# SITE.base = 'http://homepage.mac.com/james.childers/sc-doc'
+SITE.xpaths << '/html/body//img[@usemap]'
+SITE.base = 'file:///Users/jchilders/temp/simplecaptcha/docs/output/'
+#SITE.remote_dir = '/Users/jchilders/Sites'
 
 task :default => :build
 
