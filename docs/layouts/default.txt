@@ -40,12 +40,12 @@ filter:
 
    <div class="column span-5 append-2 last">
         <h4><a href="/index.html">Home</a></h4>
-        <h4><a href="http://downloads.sourceforge.net/simplecaptcha/SimpleCaptcha-1.1.jar?use_mirror=">Download v1.1</a></h4>
+        <h4><a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/SimpleCaptcha-1.1.1.jar/download">Download SimpleCaptcha</a></h4>
         <ul style="list-style: none; padding-top: -20px; margin-top: -15px;">
             <li>- <a href="http://downloads.sourceforge.net/simplecaptcha/SimpleCaptcha-1.1-src.zip?use_mirror=">Source</a></li>
             <li>&nbsp;</li>
             <li>- <a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-grails-example.war/download">Grails Example App</a></li>
-            <li>- <a href="">J2EE Example App</a></li>
+            <li>- <a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-j2ee-example.war/download">J2EE Example App</a></li>
         </ul>
         <h4><a href="/installing.html">Installing</a></h4>
         <h4><a href="/extending.html">Extending</a></h4>

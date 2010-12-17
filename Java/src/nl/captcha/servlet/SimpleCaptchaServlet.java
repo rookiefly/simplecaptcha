@@ -3,7 +3,10 @@ package nl.captcha.servlet;
 import static nl.captcha.Captcha.NAME;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.captcha.Captcha;
-import nl.captcha.backgrounds.FlatColorBackgroundProducer;
-import nl.captcha.gimpy.ShearGimpyRenderer;
-import nl.captcha.noise.StraightLineNoiseProducer;
+import nl.captcha.backgrounds.GradiatedBackgroundProducer;
+import nl.captcha.gimpy.DropShadowGimpyRenderer;
+import nl.captcha.text.renderer.ColoredEdgesWordRenderer;
 
 
 /**
@@ -29,6 +32,18 @@ public class SimpleCaptchaServlet extends HttpServlet {
 
     private static int _width = 200;
     private static int _height = 50;
+    
+    private static final List<Color> COLORS = new ArrayList<Color>(2);
+    private static final List<Font> FONTS = new ArrayList<Font>(3);
+    
+    static {
+        COLORS.add(Color.BLACK);
+        COLORS.add(Color.BLUE);
+
+        FONTS.add(new Font("Geneva", Font.ITALIC, 48));
+        FONTS.add(new Font("Courier", Font.BOLD, 48));
+        FONTS.add(new Font("Arial", Font.BOLD, 48));
+    }
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -45,13 +60,14 @@ public class SimpleCaptchaServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        Captcha captcha = new Captcha.Builder(_width, _height)
-        	.addText()
-            .addBackground(new FlatColorBackgroundProducer(Color.WHITE))
-            .gimp(new ShearGimpyRenderer())
-            .addNoise(new StraightLineNoiseProducer())
-            .build();
+        ColoredEdgesWordRenderer wordRenderer = new ColoredEdgesWordRenderer(COLORS, FONTS);
+        Captcha captcha = new Captcha.Builder(_width, _height).addText(wordRenderer)
+                .gimp()
+                .gimp(new DropShadowGimpyRenderer())
+                .addBackground(new GradiatedBackgroundProducer())
+                .addBorder()
+                .build();
+        CaptchaServletUtil.writeImage(resp, captcha.getImage());
 
         CaptchaServletUtil.writeImage(resp, captcha.getImage());
         req.getSession().setAttribute(NAME, captcha);
