@@ -33,6 +33,7 @@ public class StickyCaptchaServlet extends HttpServlet {
     
     @Override
     public void init(ServletConfig config) throws ServletException {
+        super.init(config);
     	if (getInitParameter("captcha-height") != null) {
     		_height = Integer.valueOf(getInitParameter("captcha-height"));
     	}
