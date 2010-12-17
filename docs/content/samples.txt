@@ -1,5 +1,5 @@
 ---
-title:      Running the Sample Applications
+title:      Running the Example Applications Locally
 created_at: 2009-02-10 11:21:02.249874 -06:00
 filter:
   - erb
@@ -8,6 +8,42 @@ filter:
 p(title). <%= h(@page.title) %>
 
 Example implementations are provided for J2EE and Grails. The are intended to show various ways of using SimpleCaptcha, how to customize it, and what it is capable of.
+
+h2. Grails
+
+This is a simple Grails appliction used to exersise the Builder. This is *the* best place to get a feel for how to generate your own CAPTCHAs: changing up the code which generates the CAPTCHAs does not require a server restart.
+
+There is also an example of how to use SimpleCaptcha with Spring via Grails' Spring DSL. See @grails-app/controllers/SpringController.groovy@ and @grails-app/conf/spring/resources.groovy@. 
+
+h3. Installing
+
+# Download "Grails":http://grails.codehaus.org 
+# Clone the SimpleCaptcha git repository. (Instructions can be found "here":https://sourceforge.net/scm/?type=git&group_id=147810).
+# Go to the @examples/grails/@ directory
+# Make sure that the SimpleCaptcha jar file (or a link to it) is in the @lib/@ directory.
+# Execute @grails run-app@
+# Browse to "http://localhost:8080/sc":http://localhost:8080/sc.
+
+You should see something like this:
+
+<div>
+!i/grails_snap1.png!
+</div>
+
+There are *many* examples provided here. The source for all the controllers is available in the @examples/Grails/sc/grails-app/controllers@ directory. For example, here is the code used to generate @/sc/chinese/block@, taken from @ChineseController.groovy@:
+
+<% coderay :lang => "groovy", :line_numbers => :inline do -%>
+    def block = {
+        def captcha = new Captcha.Builder(WIDTH, HEIGHT)
+            .addText(new ChineseTextProducer())
+            .gimp(new BlockGimpyRenderer())
+            .build()
+        CaptchaServletUtil.writeImage(response, captcha.image)
+    }
+<% end -%>
+
+
+bq. It should be emphasized that the Grails application is the best place to test out any custom CAPTCHAs of your own. 
 
 h2. J2EE
 
@@ -21,47 +57,12 @@ For Tomcat simply copy the sc.war file to your @webapps@ directory and restart. 
 
 You should see something like the following:
 
-<div>
-!i/j2ee_snap1.png!
-</div>
 
+!i/j2ee_snap1.png!
+
+-----
 To keep the examples simple this is all done using straight JSPs, with the exception of the servlets used to generate the CAPTCHAs. In your implementation you will, of course, want to use your MVC framework of choice. View the source of the JSPs to get a feel for how the flow works.
 
-h2. Grails
-
-This is a simple Grails appliction used to exersise the Builder. This is *the* best place to get a feel for how to generate your own CAPTCHAs: changing up the code which generates the CAPTCHAs does not require a server restart.
-
-There is also an example of how to use SimpleCaptcha with Spring via Grails' Spring DSL. See @grails-app/controllers/SpringController.groovy@ and @grails-app/conf/spring/resources.groovy@. 
-
-h3. Installing
-
-# Download "Grails":http://grails.codehaus.org 
-# Download the SimpleCaptcha "source":sc_source. It would be possible to provide a deployable war, and I will do so if there is interest in it, but for some reason the war that Grails generates is huge. It's easier to just download the source.
-# Unzip the source and go to the @examples/Grails/sc/lib@ directory
-# Make sure that the SimpleCaptcha jar file is present in the @lib/@ directory. If you have previously built the jar it is recommended that you simply create a symbolic link to the version in the @dist/@ directory. 
-# Execute @grails run-app@
-# Browse to "http://localhost:8080/sc":http://localhost:8080/sc.
-
-You should see something like this:
-
-<div>
-!i/grails_snap1.png!
-</div>
-
-There are *many* examples provided here. The source for all the controllers is available in the @examples/Grails/sc/grails-app/controllers@ directory. For example, here is the code used to generate @/sc/chinese/block@, taken from @ChineseController.groovy@:
-
-<% uv :lang => "groovy", :theme => 'spacecadet', :line_numbers => true do -%>
-    def block = {
-        def captcha = new Captcha.Builder(WIDTH, HEIGHT)
-            .addText(new ChineseTextProducer())
-            .gimp(new BlockGimpyRenderer())
-            .build()
-        CaptchaServletUtil.writeImage(response, captcha.image)
-    }
-<% end -%>
-
-
-bq. It should be emphasized that the Grails application is the best place to test out any custom CAPTCHAs of your own. 
 
 h3. Addendum: JavaFX
 
