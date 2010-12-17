@@ -13,7 +13,7 @@ h2. The Builder
 
 The preferred means of generating CAPTCHAs is using <code>Captcha.Builder</code>. 
 
-<% uv :lang => "java", :theme => 'spacecadet', :line_numbers => true do -%>
+<% coderay :lang => "java", :line_numbers => :inline do -%>
     Captcha captcha = new Captcha.Builder(200, 50)
        .addText()
        .build(); // Required! Always!
@@ -27,7 +27,7 @@ Based on this, consider the following: first, this (obviously) created a 200x50 
 
 So, what else can we do? Well...
 
-<% uv :lang => "java", :theme => 'spacecadet', :line_numbers => true do -%>
+<% coderay :lang => "java", :line_numbers => :inline do -%>
     Captcha captcha = new Captcha.Builder(200, 50)
         .addText()
         .addBackground()
@@ -43,7 +43,7 @@ This would yield something like:
 
 Each of the builder methods has no-args version, and most have one (or more) overloaded versions which provide the ability customize CAPTCHA generation. For example, if instead of generating five Latin characters we needed to generate six Chinese characters we could do the following:
 
-<% uv :lang => "java", :theme => 'spacecadet', :line_numbers => true do -%>
+<% coderay :lang => "java", :line_numbers => :inline do -%>
 Captcha captcha = new Captcha.Builder(230, 75)
     .addText(new ChineseTextProducer(6))
     .build();
@@ -63,7 +63,7 @@ The following table describes these methods:
 
 Note also that the gimp(), addNoise(), and addText() methods can be called multiple times. For example:
 
-<% uv :lang => "groovy", :theme => 'spacecadet', :line_numbers => true do -%>
+<% coderay :lang => "groovy", :line_numbers => :inline do -%>
     def multi = {
         def captcha = new Captcha.Builder(WIDTH, HEIGHT)
             .addBackground(new GradiatedBackgroundProducer())

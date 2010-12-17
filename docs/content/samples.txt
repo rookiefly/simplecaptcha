@@ -6,7 +6,6 @@ filter:
   - textile
 ---
 p(title). <%= h(@page.title) %>
-[sc_source]http://downloads.sourceforge.net/simplecaptcha/SimpleCaptcha-1.1-src.zip?use_mirror=
 
 Example implementations are provided for J2EE and Grails. The are intended to show various ways of using SimpleCaptcha, how to customize it, and what it is capable of.
 

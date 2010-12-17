@@ -50,6 +50,7 @@ filter:
         <h4><a href="/installing.html">Installing</a></h4>
         <h4><a href="/extending.html">Extending</a></h4>
         <h4><a href="/samples.html">Running the Example Apps</a></h4>
+        <h4><a href="/javadocs/index.html"">Browse Javadocs</a></h4>
         <h4><a href="http://simplecaptcha.git.sourceforge.net/git/gitweb.cgi?p=simplecaptcha/simplecaptcha;a=summary">Browse source repository</a></h4>
 </div>
 </body>

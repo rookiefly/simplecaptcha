@@ -1,6 +1,8 @@
 SITE.xpaths << '/html/body//img[@usemap]'
-SITE.base = 'file:///Users/jchilders/temp/simplecaptcha/docs/output/'
-#SITE.remote_dir = '/Users/jchilders/Sites'
+
+SITE.user = 'jchilders235,simplecaptcha'
+SITE.host = 'web.sourceforge.net'
+SITE.remote_dir = '/home/groups/s/si/simplecaptcha/htdocs/'
 
 task :default => :build
 
