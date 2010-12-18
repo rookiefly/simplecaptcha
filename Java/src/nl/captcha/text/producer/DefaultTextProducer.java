@@ -32,8 +32,6 @@ public class DefaultTextProducer implements TextProducer {
     
     @Override
     public String getText() {
-        int car = _srcChars.length - 1;
-
         String capText = "";
         for (int i = 0; i < _length; i++) {
             capText += _srcChars[RAND.nextInt(_srcChars.length)];
