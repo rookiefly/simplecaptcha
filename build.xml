@@ -2,10 +2,11 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="version.num" value="1.1.1" />
+    <property environment="env" />
 
     <path id="simplecaptcha.classpath">
         <pathelement location="bin"/>
-        <pathelement location="/usr/apache-tomcat-6.0.18/lib/servlet-api.jar"/>
+        <pathelement location="${env.CATALINA_HOME}/lib/servlet-api.jar"/>
         <pathelement location="lib/imaging.jar"/>
     </path>
 
@@ -19,14 +20,26 @@
 
     <target name="build-project" depends="init">
         <echo message="${ant.project.name}: ${ant.file}, target: ${target}"/>
-        <javac destdir="bin" source="1.6" target="1.6">
+        <javac destdir="bin" includeantruntime="false" source="1.6" target="1.6">
             <src path="Java/src"/>
             <classpath refid="simplecaptcha.classpath"/>
         </javac>
     </target>
 
+
 	<target name="build-jar" depends="build-project">
-        <jar destfile="dist/simplecaptcha-${version.num}.jar" basedir="bin" />
+        <property name="marshalldir" value="marshalltmp" />
+        <mkdir dir="${marshalldir}" />
+        <unzip src="lib/imaging.jar" dest="${marshalldir}" />
+
+        <jar destfile="dist/simplecaptcha-${version.num}.jar">
+            <fileset dir="${marshalldir}" />
+            <fileset dir="bin" />
+        </jar>
+
+        <delete dir="${marshalldir}" />
+
+        <echo message="Successfully created dist/simplecaptcha-${version.num}.jar" />
 	</target>
 </project>
 
