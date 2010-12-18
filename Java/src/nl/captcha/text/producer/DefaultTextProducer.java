@@ -1,7 +1,6 @@
 package nl.captcha.text.producer;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -27,7 +26,7 @@ public class DefaultTextProducer implements TextProducer {
     
     public DefaultTextProducer(int length, char[] srcChars) {
     	_length = length;
-    	_srcChars = Arrays.copyOf(srcChars, srcChars.length);
+    	_srcChars = copyOf(srcChars, srcChars.length);
     }
     
     @Override
@@ -38,5 +37,12 @@ public class DefaultTextProducer implements TextProducer {
         }
 
         return capText;
+    }
+    
+    private static char[] copyOf(char[] original, int newLength) {
+        char[] copy = new char[newLength];
+        System.arraycopy(original, 0, copy, 0,
+                Math.min(original.length, newLength));
+        return copy;
     }
 }
