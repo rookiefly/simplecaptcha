@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class FiveLetterFirstNameTextProducer implements TextProducer {
 
-    private static final Random GENERATOR = new SecureRandom();
+    private static final Random RAND = new SecureRandom();
     private static final String[] FIRST_NAMES = new String[] { "jomah",
             "yanae", "dagna", "aadel", "aaden", "aafia", "aamir", "aaran",
             "aaren", "aaric", "aarin", "aarle", "aaron", "aarti", "aaryn",
@@ -1050,6 +1050,6 @@ public class FiveLetterFirstNameTextProducer implements TextProducer {
     @Override
     public String getText() {
         int car = FIRST_NAMES.length - 1;
-        return FIRST_NAMES[GENERATOR.nextInt(car) + 1];
+        return FIRST_NAMES[RAND.nextInt(car) + 1];
     }
 }

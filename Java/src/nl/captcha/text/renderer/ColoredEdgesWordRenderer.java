@@ -20,6 +20,8 @@ import java.util.Random;
 
 public class ColoredEdgesWordRenderer implements WordRenderer {
 
+    private static final Random RAND = new SecureRandom();
+
 	private static final List<Color> DEFAULT_COLORS = new ArrayList<Color>();
 	private static final List<Font> DEFAULT_FONTS = new ArrayList<Font>();
 	private static final float DEFAULT_STROKE_WIDTH = 0f;
@@ -91,8 +93,7 @@ public class ColoredEdgesWordRenderer implements WordRenderer {
 			return objs.get(0);
 		}
 		
-		Random gen = new SecureRandom();
-		int i = gen.nextInt(objs.size());
+		int i = RAND.nextInt(objs.size());
 		return objs.get(i);
 	}
 }

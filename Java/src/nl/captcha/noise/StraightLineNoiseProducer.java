@@ -14,9 +14,9 @@ import java.security.SecureRandom;
  */
 public class StraightLineNoiseProducer implements NoiseProducer {
 
+    private static final SecureRandom RAND = new SecureRandom();
     private final Color _color;
     private final int _thickness;
-    private final SecureRandom _gen = new SecureRandom();
 
     /**
      * Default constructor creates a 4-pixel wide red line.
@@ -35,8 +35,8 @@ public class StraightLineNoiseProducer implements NoiseProducer {
         Graphics2D graphics = image.createGraphics();
         int height = image.getHeight();
         int width = image.getWidth();
-        int y1 = _gen.nextInt(height) + 1;
-        int y2 = _gen.nextInt(height) + 1;
+        int y1 = RAND.nextInt(height) + 1;
+        int y2 = RAND.nextInt(height) + 1;
         drawLine(graphics, y1, width, y2);
     }
 

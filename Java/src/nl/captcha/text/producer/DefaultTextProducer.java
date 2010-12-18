@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class DefaultTextProducer implements TextProducer {
 
-    private static final Random _gen = new SecureRandom();
+    private static final Random RAND = new SecureRandom();
     private static final int DEFAULT_LENGTH = 5;
     private static final char[] DEFAULT_CHARS = new char[] { 'a', 'b', 'c', 'd',
             'e', 'f', 'g', 'h', 'k', 'm', 'n', 'p', 'r', 'w', 'x', 'y',
@@ -36,7 +36,7 @@ public class DefaultTextProducer implements TextProducer {
 
         String capText = "";
         for (int i = 0; i < _length; i++) {
-            capText += _srcChars[_gen.nextInt(_srcChars.length)];
+            capText += _srcChars[RAND.nextInt(_srcChars.length)];
         }
 
         return capText;

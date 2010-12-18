@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class ShearGimpyRenderer implements GimpyRenderer {
 
-    private final Random _gen = new SecureRandom();
+    private static final Random RAND = new SecureRandom();
     private final Color _color;
 
     public ShearGimpyRenderer() {
@@ -28,11 +28,11 @@ public class ShearGimpyRenderer implements GimpyRenderer {
     }
 
     private void shearX(Graphics2D g, int w1, int h1) {
-        int period = _gen.nextInt(10) + 5;
+        int period = RAND.nextInt(10) + 5;
 
         boolean borderGap = true;
         int frames = 15;
-        int phase = _gen.nextInt(5) + 2;
+        int phase = RAND.nextInt(5) + 2;
 
         for (int i = 0; i < h1; i++) {
             double d = (period >> 1)
@@ -48,7 +48,7 @@ public class ShearGimpyRenderer implements GimpyRenderer {
     }
 
     private void shearY(Graphics2D g, int w1, int h1) {
-        int period = _gen.nextInt(30) + 10; // 50;
+        int period = RAND.nextInt(30) + 10; // 50;
 
         boolean borderGap = true;
         int frames = 15;

@@ -17,6 +17,7 @@ import java.util.Random;
  */
 public class DefaultWordRenderer implements WordRenderer {
 
+    private static final Random RAND = new SecureRandom();
 	private static final List<Color> DEFAULT_COLORS = new ArrayList<Color>();
 	private static final List<Font> DEFAULT_FONTS = new ArrayList<Font>();
 	// The text will be rendered 25%/5% of the image height/width from the X and Y axes
@@ -57,8 +58,6 @@ public class DefaultWordRenderer implements WordRenderer {
         hints.add(new RenderingHints(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY));
         g.setRenderingHints(hints);
-
-        Random generator = new SecureRandom();
         
         FontRenderContext frc = g.getFontRenderContext();
         int xBaseline = (int) Math.round(image.getWidth() * XOFFSET);
@@ -68,9 +67,9 @@ public class DefaultWordRenderer implements WordRenderer {
         for (char c : word.toCharArray()) {
             chars[0] = c;
             
-            g.setColor(_colors.get(generator.nextInt(_colors.size())));
+            g.setColor(_colors.get(RAND.nextInt(_colors.size())));
 
-            int choiceFont = generator.nextInt(_fonts.size());
+            int choiceFont = RAND.nextInt(_fonts.size());
             Font font = _fonts.get(choiceFont);
             g.setFont(font);
             
