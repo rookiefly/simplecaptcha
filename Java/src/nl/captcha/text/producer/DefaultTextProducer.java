@@ -36,7 +36,7 @@ public class DefaultTextProducer implements TextProducer {
 
         String capText = "";
         for (int i = 0; i < _length; i++) {
-            capText += _srcChars[_gen.nextInt(car) + 1];
+            capText += _srcChars[_gen.nextInt(_srcChars.length)];
         }
 
         return capText;
