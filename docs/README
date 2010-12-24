@@ -4,9 +4,11 @@ http://webby.rubyforge.org
 
 Webby is a very cool framework for generating static HTML files based on user templates.
 
-To build docs:
+To build HTML documentation:
 
     # webby
+
+This parses the headers, etc., and puts results in the output/ directory.
 
 To deploy:
 

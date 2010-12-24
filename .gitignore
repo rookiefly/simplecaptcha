@@ -6,3 +6,4 @@ docs/output/
 CVS/
 bin/
 stacktrace.log
+.settings/org.eclipse.ltk.core.refactoring.prefs
