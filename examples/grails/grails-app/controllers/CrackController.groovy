@@ -22,6 +22,8 @@ import nl.captcha.servlet.CaptchaServletUtil
 **/
 
 class CrackController {
+    static navigation = true
+
     private static final WIDTH = 200
     private static final HEIGHT = 50
 
