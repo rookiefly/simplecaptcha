@@ -8,13 +8,15 @@
         <div class="dialog" style="margin-left:20px;width:60%;">
             <ul>
                 <g:each var="c" in="${grailsApplication.controllerClasses}">
-                    <li class="controller"><h1>${c.logicalPropertyName}Controller</h1><br/>
-                    <g:each var="uri" in="${c.URIs}">
-                        <g:if test="${uri.count('/') == 2 && !uri.endsWith('/') && !uri.endsWith('Bean')}">
-                            <a href="${createLinkTo(file:uri)}"><img src="${createLinkTo(file:uri)}"> ${createLinkTo(file:uri)}</a><br />
-                        </g:if>
-                    </g:each>
-                    </li>
+                    <g:if test="${!c.logicalPropertyName.contains('crack')}">
+                        <li class="controller"><h1>${c.logicalPropertyName}Controller</h1><br/>
+                        <g:each var="uri" in="${c.URIs}">
+                            <g:if test="${uri.count('/') == 2 && !uri.endsWith('/') && !uri.endsWith('Bean')}">
+                                <a href="${createLinkTo(file:uri)}"><img src="${createLinkTo(file:uri)}"> ${createLinkTo(file:uri)}</a><br />
+                            </g:if>
+                        </g:each>
+                        </li>
+                    </g:if>
                 </g:each>
             </ul>
         </div>
