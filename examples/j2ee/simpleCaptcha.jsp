@@ -10,11 +10,9 @@
 <br>
 
 <h3>SimpleCAPTCHA Example - Simple CAPTCHA</h3>
-<img src="<c:url value="simpleCaptcha.jpg" />"><br />
+<img src="<c:url value="simpleCaptcha.png" />"><br />
 <p>A simple CAPTCHA which generates a new CAPTCHA on each page reload.</p>
 
 <p>Simple CAPTCHA</a> | <a href="<c:url value="stickyCaptcha.jsp" />">Sticky CAPTCHA</a></p>
-
-<p><a href="https://sourceforge.net/docman/?group_id=147810">SimpleCAPTCHA documentation</a></p>
 </body>
 </html>

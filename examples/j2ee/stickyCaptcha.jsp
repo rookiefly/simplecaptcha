@@ -7,14 +7,16 @@
     <link href="sc.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-<br>
+    <br>
 
-<h3>SimpleCAPTCHA Example - Sticky CAPTCHA</h3>
-<img src="<c:url value="stickyCaptcha.jpg" />"><br />
-<p>A CAPTCHA which sticks to the user's session. Successive reloads should render the same CAPTCHA.</p>
+    <h3>SimpleCAPTCHA Example - Sticky CAPTCHA</h3>
+    <img src="<c:url value="stickyCaptcha.png" />"><br />
+    <form method="post" action="captchaSubmit.jsp">
+        Answer: <input name="answer" /><input type="submit" />
+    </form>
+    <p>A CAPTCHA which sticks to the user's session. Successive reloads should render the same CAPTCHA.</p>
+    <p><a href="remove.jsp">Remove from session</a></p>
 
-<p><a href="<c:url value="simpleCaptcha.jsp" />">Simple CAPTCHA</a> | Sticky CAPTCHA </p>
-
-<p><a href="https://sourceforge.net/docman/?group_id=147810">SimpleCAPTCHA documentation</a></p>
+    <p><a href="<c:url value="simpleCaptcha.jsp" />">Simple CAPTCHA</a> | Sticky CAPTCHA </p>
 </body>
 </html>

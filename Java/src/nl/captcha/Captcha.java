@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
@@ -21,7 +22,6 @@ import nl.captcha.text.producer.DefaultTextProducer;
 import nl.captcha.text.producer.TextProducer;
 import nl.captcha.text.renderer.DefaultWordRenderer;
 import nl.captcha.text.renderer.WordRenderer;
-
 
 /**
  * A builder for generating a CAPTCHA image/answer pair.
@@ -49,7 +49,7 @@ import nl.captcha.text.renderer.WordRenderer;
  * <code>captcha.isCorrect(answerStr);</code>
  * 
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
- * v
+ * 
  */
 public final class Captcha implements Serializable {
 
@@ -62,7 +62,7 @@ public final class Captcha implements Serializable {
     }
 
     public static class Builder implements Serializable {
-        private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 12L;
         /**
          * @serial
          */
@@ -75,6 +75,11 @@ public final class Captcha implements Serializable {
          * @serial
          */
         private BufferedImage _bg;
+        /**
+         * @serial
+         */
+        private Date _timeStamp;
+
         private boolean _addBorder = false;
 
         public Builder(int width, int height) {
@@ -212,7 +217,9 @@ public final class Captcha implements Serializable {
         	}
 
         	_img = _bg;
-        	
+
+            _timeStamp = new Date();
+
             return new Captcha(this);
         }
 
@@ -221,6 +228,8 @@ public final class Captcha implements Serializable {
             StringBuffer sb = new StringBuffer();
             sb.append("[Answer: ");
             sb.append(_answer);
+            sb.append("][Timestamp: ");
+            sb.append(_timeStamp);
             sb.append("][Image: ");
             sb.append(_img);
             sb.append("]");
@@ -230,12 +239,14 @@ public final class Captcha implements Serializable {
         
         private void writeObject(ObjectOutputStream out) throws IOException {
             out.writeObject(_answer);
+            out.writeObject(_timeStamp);
             ImageIO.write(_img, "png", ImageIO.createImageOutputStream(out));
         }
 
         private void readObject(ObjectInputStream in) throws IOException,
                 ClassNotFoundException {
             _answer = (String) in.readObject();
+            _timeStamp = (Date) in.readObject();
             _img = ImageIO.read(ImageIO.createImageInputStream(in));
         }
     }
@@ -248,8 +259,17 @@ public final class Captcha implements Serializable {
     	return _builder._answer;
     }
 
+    /**
+     * Get the CAPTCHA image, a PNG.
+     *
+     * @return A PNG CAPTCHA image.
+     */
     public BufferedImage getImage() {
         return _builder._img;
+    }
+
+    public Date getTimeStamp() {
+        return new Date(_builder._timeStamp.getTime());
     }
 
     @Override

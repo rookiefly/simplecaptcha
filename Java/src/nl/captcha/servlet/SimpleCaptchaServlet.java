@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import nl.captcha.Captcha;
 import nl.captcha.backgrounds.GradiatedBackgroundProducer;
-import nl.captcha.gimpy.DropShadowGimpyRenderer;
 import nl.captcha.text.renderer.ColoredEdgesWordRenderer;
 
 
 /**
- * Generates, displays, and stores in session a 200x50 CAPTCHA image with sheared black text, 
- * a solid dark grey background, and a straight, slanted red line through the text.
+ * Generates, displays, and stores in session a 200x50 CAPTCHA image with sheared 
+ * black text, a solid dark grey background, and a slightly curved line over the 
+ * text.
  * 
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  */
@@ -63,12 +63,11 @@ public class SimpleCaptchaServlet extends HttpServlet {
         ColoredEdgesWordRenderer wordRenderer = new ColoredEdgesWordRenderer(COLORS, FONTS);
         Captcha captcha = new Captcha.Builder(_width, _height).addText(wordRenderer)
                 .gimp()
-                .gimp(new DropShadowGimpyRenderer())
                 .addNoise()
                 .addBackground(new GradiatedBackgroundProducer())
                 .build();
-        CaptchaServletUtil.writeImage(resp, captcha.getImage());
 
+        CaptchaServletUtil.writeImage(resp, captcha.getImage());
         req.getSession().setAttribute(NAME, captcha);
     }
 }
