@@ -64,12 +64,11 @@ public class SimpleCaptchaServlet extends HttpServlet {
         Captcha captcha = new Captcha.Builder(_width, _height).addText(wordRenderer)
                 .gimp()
                 .gimp(new DropShadowGimpyRenderer())
+                .addNoise()
                 .addBackground(new GradiatedBackgroundProducer())
-                .addBorder()
                 .build();
         CaptchaServletUtil.writeImage(resp, captcha.getImage());
 
-        CaptchaServletUtil.writeImage(resp, captcha.getImage());
         req.getSession().setAttribute(NAME, captcha);
     }
 }

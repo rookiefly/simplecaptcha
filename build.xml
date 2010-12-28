@@ -26,7 +26,6 @@
         </javac>
     </target>
 
-
 	<target name="build-jar" depends="build-project">
         <property name="marshalldir" value="marshalltmp" />
         <mkdir dir="${marshalldir}" />
@@ -41,5 +40,19 @@
 
         <echo message="Successfully created dist/simplecaptcha-${version.num}.jar" />
 	</target>
+
+    <target name="j2ee-example" depends="build-jar">
+        <war destfile="dist/simplecaptcha-${version.num}-j2ee-sample.war">
+            <fileset dir="examples/j2ee" />
+            <lib dir="dist">
+                <include name="simplecaptcha-latest.jar" />
+            </lib>
+            <lib dir="lib">
+                <include name="jstl-1.2.jar" />
+                <include name="standard.jar" />
+            </lib>
+        </war>
+    </target>
+
 </project>
 
