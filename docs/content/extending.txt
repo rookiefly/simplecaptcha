@@ -1,5 +1,5 @@
 ---
-title:      Extending SimpleCaptcha
+title:      Customizing
 created_at: 2009-02-10 14:05:15.956302 -06:00
 filter:
   - erb
@@ -11,7 +11,7 @@ While the default implementation of SimpleCaptcha will hopefully provide all you
 
 h2. The Builder
 
-The preferred means of generating CAPTCHAs is using <code>Captcha.Builder</code>. 
+The preferred means of generating CAPTCHAs is using @Captcha.Builder@. 
 
 <% coderay :lang => "java", :line_numbers => :inline do -%>
     Captcha captcha = new Captcha.Builder(200, 50)
@@ -23,9 +23,9 @@ This will generate an image that looks something like this:
 
 !i/simplest.png!
 
-Based on this, consider the following: first, this (obviously) created a 200x50 CAPTCHA image. Second, the call to addText() added 5 random characters to the image, the default behavior. (This behavior can be customized; we will talk about how to do that shortly.) Finally note the call to <code>build()</code>. Assuming you'd like for your CAPTCHA to appear in a usable state, calling this method last is _required_. The reason for this is that it is responsible for actually building our CAPTCHA based upon what we have told the builder to do.
+The constructor arguments for @Builder@ give the width and height of the rendered image. The call to @addText()@ on line 2 generates 5 random Latin characters for an answer, the default behavior. (This behavior can be customized; we will talk about how to do that later.) Finally, a call to @build()@ is made. Assuming you'd like for your CAPTCHA to appear in a usable state, calling this method last is _required_.
 
-So, what else can we do? Well...
+This image is not particularly CAPTCHA-ish, though. Let's make it harder for an attacker to parse:
 
 <% coderay :lang => "java", :line_numbers => :inline do -%>
     Captcha captcha = new Captcha.Builder(200, 50)

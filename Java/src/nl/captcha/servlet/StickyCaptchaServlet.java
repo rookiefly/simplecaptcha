@@ -57,10 +57,9 @@ import nl.captcha.Captcha;
  *     &lt;servlet-mapping&gt;
  *         &lt;servlet-name&gt;StickyCaptcha&lt;/servlet-name&gt;
  *         &lt;url-pattern&gt;/stickyCaptcha.png&lt;/url-pattern&gt;
- *     &lt;/servlet-mapping&gt;
+ *     &lt;/servlet-mapping&gt;</pre>
  * 
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
- *
  */
 public class StickyCaptchaServlet extends HttpServlet {
 

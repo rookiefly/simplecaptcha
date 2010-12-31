@@ -9,8 +9,10 @@ filter:
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title><%= @page.title %></title>
+   <title>SimpleCaptcha - <%= @page.title %></title>
    <meta name="author" content="<%= @page.author %>" />
+   <meta name="description" content="SimpleCaptcha - A CAPTCHA library for Java 1.5 and Java 6" />
+   <meta name="keywords" content="captcha, java, j2ee, library, grails, java 1.5, java 6" />
 
    <!-- Blueprint CSS Framework -->
    <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
@@ -29,32 +31,37 @@ filter:
 
 <div class="container">
 
-   <div class="column span-20 prepend-2 append-2 first last" id="header">
-     <p class="title">SimpleCaptcha</p>
-     <hr>
-   </div>
+    <div class="column span-20 prepend-2 append-2 first last" id="header">
+        <p class="title">SimpleCaptcha</p>
+        <hr>
+    </div>
 
-   <div class="column span-15 prepend-2 first">
+   <div class="column span-14 prepend-2 first">
       <%= @content %>
    </div>
 
-   <div class="column span-5 append-2 last">
+   <div class="column prepend-1 span-6 last">
         <h4><a href="/index.html">Home</a></h4>
         <h4>Download SimpleCaptcha</h4>
-        <ul style="list-style: none; padding-top: -20px; margin-top: -15px;">
-            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.1.1.jar/download">SimpleCaptcha for Java6</a></li>
-            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.1.1-jdk1.5.jar/download">SimpleCaptcha for Java5</a></li>
-            <li><a href="http://downloads.sourceforge.net/simplecaptcha/SimpleCaptcha-1.1-src.zip?use_mirror=">Source</a></li>
-            <li>&nbsp;</li>
-            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-grails-example.war/download">Grails Example App</a></li>
-            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-j2ee-example.war/download">J2EE Example App</a></li>
+        <ul>
+            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.1.1.jar/download">SimpleCaptcha for Java 6</a></li>
+            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.1.1-jdk1.5.jar/download">SimpleCaptcha for Java 1.5</a></li>
         </ul>
         <h4><a href="/installing.html">Installing</a></h4>
-        <h4><a href="/extending.html">Extending</a></h4>
-        <h4><a href="/building.html">Building From Source</a></h4>
-        <h4><a href="/samples.html">Running the Example Apps</a></h4>
-        <h4><a href="/javadocs/index.html"">Browse Javadocs</a></h4>
-        <h4><a href="http://simplecaptcha.git.sourceforge.net/git/gitweb.cgi?p=simplecaptcha/simplecaptcha;a=summary">Browse source repository</a></h4>
-</div>
+        <h4><a href="/extending.html">Customizing</a></h4>
+        <h4>Example Applications</h4>
+        <ul>
+            <li><a href="/samples.html">Running</a></li>
+            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-grails-example.war/download">Download Grails Example</a></li>
+            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-j2ee-example.war/download">Download J2EE Example</a></li>
+        </ul>
+        <h4>Source</h4>
+        <ul>
+            <li><a href="/building.html">Building From Source</a></li>
+            <li><a href="https://sourceforge.net/scm/?type=git&group_id=147810">Get Source Code</a></li>
+            <li><a href="http://simplecaptcha.git.sourceforge.net/git/gitweb.cgi?p=simplecaptcha/simplecaptcha;a=summary">Browse Repository</a></li>
+        </ul>
+        <h4><a href="/javadocs/index.html">Javadocs</a></h4>
+    </div>
 </body>
 </html>

@@ -10,6 +10,10 @@ To build HTML documentation:
 
 This parses the headers, etc., and puts results in the output/ directory.
 
+To work on the documentation locally:
+
+    # webby autobuild
+
 To deploy:
 
     # webby deploy

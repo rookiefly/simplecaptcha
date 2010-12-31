@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * Renders the answer onto the image.
+ * 
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  */
 public class DefaultWordRenderer implements WordRenderer {
@@ -33,10 +35,20 @@ public class DefaultWordRenderer implements WordRenderer {
     private final List<Color> _colors = new ArrayList<Color>();
     private final List<Font> _fonts = new ArrayList<Font>();
     
+    /**
+     * Use the default color (black) and fonts (Arial and Courier).
+     */
     public DefaultWordRenderer() {
     	this(DEFAULT_COLORS, DEFAULT_FONTS);
     }
-    
+
+    /**
+     * Build a <code>WordRenderer</code> using the given <code>Color</code>s and
+     * <code>Font</code>s.
+     * 
+     * @param colors
+     * @param fonts
+     */
     public DefaultWordRenderer(List<Color> colors, List<Font> fonts) {
     	_colors.addAll(colors);
     	_fonts.addAll(fonts);
@@ -46,7 +58,7 @@ public class DefaultWordRenderer implements WordRenderer {
      * Render a word onto a BufferedImage.
      * 
      * @param word The word to be rendered.
-     * @param bi  The BufferedImage onto which the word will be painted on to
+     * @param image The BufferedImage onto which the word will be painted.
      */
     @Override
     public void render(final String word, BufferedImage image) {

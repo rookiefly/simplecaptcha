@@ -12,8 +12,8 @@ public interface BackgroundProducer {
     /**
      * Add the background to the given image.
      * 
-     * @param image
-     * @return
+     * @param image The image onto which the background will be rendered.
+     * @return The image with the background rendered.
      */
     public BufferedImage addBackground(BufferedImage image);
     

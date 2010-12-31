@@ -54,5 +54,21 @@
         </war>
     </target>
 
+    <target name="javadocs">
+        <javadoc packagenames="nl.captcha.*"
+            sourcepath="Java/src"
+            excludepackagenames="com.jhlabs.*"
+            defaultexcludes="yes"
+            destdir="docs/output/javadocs"
+            author="true"
+            version="true"
+            use="true"
+            windowtitle="SimpleCaptcha API">
+            <classpath refid="simplecaptcha.classpath"/>
+            <doctitle><![CDATA[<h1>SimpleCaptcha</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2010 James Childers. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+        <echo message="Javadocs built to docs/output/javadocs" />
+    </target>
 </project>
 

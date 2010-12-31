@@ -1,5 +1,5 @@
 ---
-title:      Running the Example Applications Locally
+title:      Running the Example Applications
 created_at: 2009-02-10 11:21:02.249874 -06:00
 filter:
   - erb
@@ -7,24 +7,32 @@ filter:
 ---
 p(title). <%= h(@page.title) %>
 
-Example implementations are provided for J2EE and Grails. The are intended to show various ways of using SimpleCaptcha, how to customize it, and what it is capable of.
+Example implementations are provided for Grails and J2EE. These are intended to show various ways of using SimpleCaptcha, how to customize it, and what it is capable of.
 
 h2. Grails
 
-This is a simple Grails appliction used to exersise the Builder. This is *the* best place to get a feel for how to generate your own CAPTCHAs: changing up the code which generates the CAPTCHAs does not require a server restart.
+This is a simple Grails application used to exercise the Builder. This is the best and easiest way to get a feel for how to generate your own CAPTCHAs: changing up the code which generates the CAPTCHAs is a simple matter of changing Groovy scripts, rather than tinkering with servlets.
 
 There is also an example of how to use SimpleCaptcha with Spring via Grails' Spring DSL. See @grails-app/controllers/SpringController.groovy@ and @grails-app/conf/spring/resources.groovy@. 
 
 h3. Installing
 
-# Download "Grails":http://grails.codehaus.org 
-# Clone the SimpleCaptcha git repository. (Instructions can be found "here":https://sourceforge.net/scm/?type=git&group_id=147810).
+h4. From source:
+
+# Clone the git repo (instructions "here":http://localhost:4331/building.html).
 # Go to the @examples/grails/@ directory
-# Make sure that the SimpleCaptcha jar file (or a link to it) is in the @lib/@ directory.
-# Execute @grails run-app@
+# Make sure that the SimpleCaptcha jar file (or a link to it) is in the @examples/grails/lib/@ directory.
+# Run @grails run-app@
 # Browse to "http://localhost:8080/sc":http://localhost:8080/sc.
 
-You should see something like this:
+h4. As a deployable war:
+
+# Download the "Grails sample app":http://sourceforge.net/projects/simplecaptcha/files/SimpleCaptcha/1.1.1/Sample%20Apps/simplecaptcha-grails-example.war/download.
+# Deploy it to your servlet container. 
+
+h3. Using
+
+Once installed and running you should see something like this:
 
 <div>
 !i/grails_snap1.png!

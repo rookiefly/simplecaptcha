@@ -87,19 +87,16 @@ public final class Captcha implements Serializable {
         }
 
         /**
-         * Add a background using the default BackgroundProducer.
-         * 
-         * @return
+         * Add a background using the default {@link BackgroundProducer} (a {@link TransparentBackgroundProducer}).
          */
         public Builder addBackground() {
             return addBackground(new TransparentBackgroundProducer());
         }
 
         /**
-         * Add a background using the given BackgroundProducer.
+         * Add a background using the given {@link BackgroundProducer}.
          * 
          * @param bgProd
-         * @return
          */
         public Builder addBackground(BackgroundProducer bgProd) {
         	_bg = bgProd.getBackground(_img.getWidth(), _img.getHeight());
@@ -108,28 +105,41 @@ public final class Captcha implements Serializable {
         }
 
         /**
-         * Add text to the image using the default TextProducer
-         * 
-         * @return
+         * Generate the answer to the CAPTCHA using the {@link DefaultTextProducer}.
          */
         public Builder addText() {
             return addText(new DefaultTextProducer());
         }
 
         /**
-         * Add text to the image using the given TextProducer
+         * Generate the answer to the CAPTCHA using the given
+         * {@link TextProducer}.
          * 
          * @param txtProd
-         * @return
          */
         public Builder addText(TextProducer txtProd) {
             return addText(txtProd, new DefaultWordRenderer());
         }
-        
+
+        /**
+         * Generate the answer to the CAPTCHA using the default
+         * {@link TextProducer}, and render it to the image using the given
+         * {@link WordRenderer}.
+         *
+         * @param wRenderer
+         */
         public Builder addText(WordRenderer wRenderer) {
         	return addText(new DefaultTextProducer(), wRenderer);
         }
-        
+
+        /**
+         * Generate the answer to the CAPTCHA using the given
+         * {@link TextProducer}, and render it to the image using the given
+         * {@link WordRenderer}.
+         *
+         * @param txtProd
+         * @param wRenderer
+         */
         public Builder addText(TextProducer txtProd, WordRenderer wRenderer) {
         	_answer += txtProd.getText();
         	wRenderer.render(_answer, _img);
@@ -138,9 +148,7 @@ public final class Captcha implements Serializable {
         }
 
         /**
-         * Add noise using the default NoiseProducer.
-         * 
-         * @return
+         * Add noise using the default {@link NoiseProducer} (a {@link CurvedLineNoiseProducer}).
          */
         public Builder addNoise() {
             return this.addNoise(new CurvedLineNoiseProducer());
@@ -150,7 +158,6 @@ public final class Captcha implements Serializable {
          * Add noise using the given NoiseProducer.
          * 
          * @param nProd
-         * @return
          */
         public Builder addNoise(NoiseProducer nProd) {
             nProd.makeNoise(_img);
@@ -158,19 +165,16 @@ public final class Captcha implements Serializable {
         }
 
         /**
-         * Gimp the image using the default GimpyRenderer.
-         * 
-         * @return
+         * Gimp the image using the default {@link GimpyRenderer} (a {@link RippleGimpyRenderer}).
          */
         public Builder gimp() {
             return gimp(new RippleGimpyRenderer());
         }
 
         /**
-         * Gimp the image using the given GimpyRenderer.
+         * Gimp the image using the given {@link GimpyRenderer}.
          * 
          * @param gimpy
-         * @return
          */
         public Builder gimp(GimpyRenderer gimpy) {
             gimpy.gimp(_img);
@@ -179,8 +183,6 @@ public final class Captcha implements Serializable {
 
         /**
          * Draw a single-pixel wide black border around the image.
-         * 
-         * @return
          */
         public Builder addBorder() {
         	_addBorder = true;
@@ -192,7 +194,7 @@ public final class Captcha implements Serializable {
          * Build the CAPTCHA. This method should always be called, and should always
          * be called last.
          * 
-         * @return
+         * @return The constructed CAPTCHA.
          */
         public Captcha build() {
         	if (_bg == null) {
@@ -204,7 +206,6 @@ public final class Captcha implements Serializable {
         	g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         	g.drawImage(_img, null, null);
         	
-        	// Add the border, if necessary
         	if (_addBorder) {
         		int width = _img.getWidth();
         		int height = _img.getHeight();
