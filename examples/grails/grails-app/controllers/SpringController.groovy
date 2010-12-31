@@ -1,7 +1,9 @@
 import nl.captcha.servlet.CaptchaServletUtil
 
 class SpringController {
-    static navigation = true
+    static navigation = [
+        order:3
+    ]
 
     def defaultCaptchaBean
     def chineseCaptchaBean

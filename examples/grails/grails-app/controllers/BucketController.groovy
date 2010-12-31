@@ -1,5 +1,7 @@
 class BucketController {
-    static navigation = true
+    static navigation = [
+        order:1
+    ]
 
     def index = {
         render(view:"index")
