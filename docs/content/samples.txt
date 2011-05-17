@@ -19,7 +19,7 @@ h3. Installing
 
 h4. From source:
 
-# Clone the git repo (instructions "here":http://localhost:4331/building.html).
+# Clone the git repo (instructions "here":https://sourceforge.net/scm/?type=git&group_id=147810).
 # Go to the @examples/grails/@ directory
 # Make sure that the SimpleCaptcha jar file (or a link to it) is in the @examples/grails/lib/@ directory.
 # Run @grails run-app@
