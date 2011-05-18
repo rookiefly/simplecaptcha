@@ -34,6 +34,9 @@
         <jar destfile="dist/simplecaptcha-${version.num}.jar">
             <fileset dir="${marshalldir}" />
             <fileset dir="bin" />
+            <fileset dir=".">
+                <include name="**/mp3s/**" />
+            </fileset>
         </jar>
 
         <delete dir="${marshalldir}" />
