@@ -35,7 +35,7 @@
             <fileset dir="${marshalldir}" />
             <fileset dir="bin" />
             <fileset dir=".">
-                <include name="**/mp3s/**" />
+                <include name="**/sounds/**" />
             </fileset>
         </jar>
 
