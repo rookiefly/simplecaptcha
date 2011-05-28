@@ -1,67 +1,102 @@
 package nl.captcha.audio;
 
 import java.io.*;
+
 import javax.sound.sampled.*;
 
 public class AudioSampleReader {
 
-    private AudioInputStream audioInputStream;
-    private AudioFormat format;
+    private final AudioInputStream _audioInputStream;
+    private final AudioFormat _format;
 
     public AudioSampleReader(InputStream is) throws UnsupportedAudioFileException,
             IOException {
-        audioInputStream = AudioSystem.getAudioInputStream(is);
-        format = audioInputStream.getFormat();
+        _audioInputStream = AudioSystem.getAudioInputStream(is);
+        _format = _audioInputStream.getFormat();
     }
 
-    // Return audio format, and through it, most properties of
-    // the audio file: sample size, sample rate, etc.
     public AudioFormat getFormat() {
-        return format;
+        return _format;
     }
 
-    // Return the number of samples of all channels
+    /**
+     * Return the number of samples of all channels
+     * 
+     * @return
+     */
     public long getSampleCount() {
-        long total = (audioInputStream.getFrameLength() * format.getFrameSize() * 8)
-                / format.getSampleSizeInBits();
-        return total / format.getChannels();
+        long total = (_audioInputStream.getFrameLength() * _format.getFrameSize() * 8)
+                / _format.getSampleSizeInBits();
+        return total / _format.getChannels();
+    }
+    
+    public double[] getInterleavedSamples() {
+        double[] samples = new double[(int) getSampleCount()];
+        try {
+            getInterleavedSamples(0, getSampleCount(), samples);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return samples;
     }
 
-    // Get the intervealed decoded samples for all channels, from sample
-    // index begin (included) to sample index end (excluded) and copy
-    // them into samples. end must not exceed getSampleCount(), and the
-    // number of samples must not be so large that the associated byte
-    // array cannot be allocated
+    /**
+     * Get the interleaved decoded samples for all channels, from sample index
+     * <code>begin</code> (included) to sample index <code>end</code> (excluded)
+     * and copy them into <code>samples</code>. <code>end</code> must not exceed
+     * <code>getSampleCount()</code>, and the number of samples must not be so
+     * large that the associated byte array cannot be allocated
+     * 
+     * @param begin
+     * @param end
+     * @param samples
+     * @throws IOException
+     * @throws IllegalArgumentException
+     */     
     public void getInterleavedSamples(long begin, long end, double[] samples)
             throws IOException, IllegalArgumentException {
         long nbSamples = end - begin;
-        // nbBytes = nbSamples * sampleSizeinByte * nbChannels
-        long nbBytes = nbSamples * (format.getSampleSizeInBits() / 8)
-                * format.getChannels();
+        long nbBytes = nbSamples * (_format.getSampleSizeInBits() / 8)
+                * _format.getChannels();
         if (nbBytes > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("too many samples");
+            throw new IllegalArgumentException("Too many samples. Try using a smaller wav.");
         }
         // allocate a byte buffer
         byte[] inBuffer = new byte[(int) nbBytes];
         // read bytes from audio file
-        audioInputStream.read(inBuffer, 0, inBuffer.length);
+        _audioInputStream.read(inBuffer, 0, inBuffer.length);
         // decode bytes into samples. Supported encodings are:
         // PCM-SIGNED, PCM-UNSIGNED, A-LAW, U-LAW
         decodeBytes(inBuffer, samples);
     }
 
-    // Extract samples of a particular channel from interleavedSamples and
-    // copy them into channelSamples
+    /**
+     * Extract samples of a particular channel from interleavedSamples and copy
+     * them into channelSamples
+     * 
+     * @param channel
+     * @param interleavedSamples
+     * @param channelSamples
+     */ 
     public void getChannelSamples(int channel, double[] interleavedSamples,
             double[] channelSamples) {
-        int nbChannels = format.getChannels();
+        int nbChannels = _format.getChannels();
         for (int i = 0; i < channelSamples.length; i++) {
             channelSamples[i] = interleavedSamples[nbChannels * i + channel];
         }
     }
 
-    // Convenience method. Extract left and right channels for common stereo
-    // files. leftSamples and rightSamples must be of size getSampleCount()
+    /**
+     * Convenience method. Extract left and right channels for common stereo
+     * files. leftSamples and rightSamples must be of size getSampleCount()
+     * 
+     * @param leftSamples
+     * @param rightSamples
+     * @throws IOException
+     */
     public void getStereoSamples(double[] leftSamples, double[] rightSamples)
             throws IOException {
         long sampleCount = getSampleCount();
@@ -73,14 +108,14 @@ public class AudioSampleReader {
         }
     }
 
-    // Private. Decode bytes of audioBytes into audioSamples
+    // Decode bytes of audioBytes into audioSamples
     private void decodeBytes(byte[] audioBytes, double[] audioSamples) {
-        int sampleSizeInBytes = format.getSampleSizeInBits() / 8;
+        int sampleSizeInBytes = _format.getSampleSizeInBits() / 8;
         int[] sampleBytes = new int[sampleSizeInBytes];
         int k = 0; // index in audioBytes
         for (int i = 0; i < audioSamples.length; i++) {
             // collect sample byte in big-endian order
-            if (format.isBigEndian()) {
+            if (_format.isBigEndian()) {
                 // bytes start with MSB
                 for (int j = 0; j < sampleSizeInBytes; j++) {
                     sampleBytes[j] = audioBytes[k++];
@@ -101,7 +136,7 @@ public class AudioSampleReader {
                     ival <<= 8;
             }
             // decode value
-            double ratio = Math.pow(2., format.getSampleSizeInBits() - 1);
+            double ratio = Math.pow(2., _format.getSampleSizeInBits() - 1);
             double val = ((double) ival) / ratio;
             audioSamples[i] = val;
         }

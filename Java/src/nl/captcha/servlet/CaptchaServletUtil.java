@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 public final class CaptchaServletUtil {
@@ -30,23 +29,18 @@ public final class CaptchaServletUtil {
 		}
     }
     
-    public static void writeAudio(HttpServletResponse response, InputStream buf) throws IOException {
+    public static void writeAudio(HttpServletResponse response, InputStream is) throws IOException {
         response.setHeader("Cache-Control", "private,no-cache,no-store");
         response.setContentType("audio/x-wav");
         
         OutputStream os = response.getOutputStream();
         
         int readBytes = 0;
-        while ((readBytes = buf.read()) != -1) {
+        while ((readBytes = is.read()) != -1) {
             os.write(readBytes);
         }
-        
-        if (os != null) {
-            os.close();
-        }
-        
-        if (buf != null) {
-            buf.close();
-        }
+
+        os.close();
+        is.close();
     }
 }
