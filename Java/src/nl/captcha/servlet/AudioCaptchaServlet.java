@@ -17,11 +17,13 @@ public class AudioCaptchaServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse response) throws ServletException, IOException {
 
-        InputStream is1 = AudioCaptchaServlet.class
-                .getResourceAsStream("/sounds/askAquestion.wav");
         InputStream is2 = AudioCaptchaServlet.class
+                .getResourceAsStream("/sounds/askAquestion.wav");
+        InputStream is1 = AudioCaptchaServlet.class
                 .getResourceAsStream("/sounds/gridislive.wav");
-        InputStream mixedIs = Mixer.mix(is1, is2);
+        Mixer mixer = new Mixer(is1, is2);
+        InputStream mixedIs = mixer.append();
+
         CaptchaServletUtil.writeAudio(response, mixedIs);
 
         mixedIs.close();

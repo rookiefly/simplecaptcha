@@ -9,10 +9,13 @@ public class AudioSampleReader {
     private final AudioInputStream _audioInputStream;
     private final AudioFormat _format;
 
-    public AudioSampleReader(InputStream is) throws UnsupportedAudioFileException,
-            IOException {
+    public AudioSampleReader(InputStream is) throws IOException {
+        try {
         _audioInputStream = AudioSystem.getAudioInputStream(is);
         _format = _audioInputStream.getFormat();
+        } catch (UnsupportedAudioFileException e) {
+            throw new IOException(e);
+        }
     }
 
     public AudioFormat getFormat() {
