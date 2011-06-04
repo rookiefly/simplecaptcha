@@ -6,15 +6,31 @@ import javax.sound.sampled.*;
 
 public class AudioSampleReader {
 
+    public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(
+            16000, // sample rate
+            16, // sample size in bits
+            1, // channels
+            true, // signed?
+            false); // big endian?;
+
     private final AudioInputStream _audioInputStream;
     private final AudioFormat _format;
 
-    public AudioSampleReader(InputStream is) throws IOException {
+    public AudioSampleReader(InputStream is) {
+        if (is instanceof AudioInputStream) {
+            _audioInputStream = (AudioInputStream) is;
+            _format = _audioInputStream.getFormat();
+            return;
+        }
+
         try {
-        _audioInputStream = AudioSystem.getAudioInputStream(is);
-        _format = _audioInputStream.getFormat();
+            _audioInputStream = AudioSystem.getAudioInputStream(is);
+            _format = _audioInputStream.getFormat();
+            checkFormat(_format);
         } catch (UnsupportedAudioFileException e) {
-            throw new IOException(e);
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -28,11 +44,12 @@ public class AudioSampleReader {
      * @return
      */
     public long getSampleCount() {
-        long total = (_audioInputStream.getFrameLength() * _format.getFrameSize() * 8)
+        long total = (_audioInputStream.getFrameLength()
+                * _format.getFrameSize() * 8)
                 / _format.getSampleSizeInBits();
         return total / _format.getChannels();
     }
-    
+
     public double[] getInterleavedSamples() {
         double[] samples = new double[(int) getSampleCount()];
         try {
@@ -42,7 +59,7 @@ public class AudioSampleReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         return samples;
     }
 
@@ -58,22 +75,24 @@ public class AudioSampleReader {
      * @param samples
      * @throws IOException
      * @throws IllegalArgumentException
-     */     
-    public void getInterleavedSamples(long begin, long end, double[] samples)
+     */
+    public double[] getInterleavedSamples(long begin, long end, double[] samples)
             throws IOException, IllegalArgumentException {
         long nbSamples = end - begin;
         long nbBytes = nbSamples * (_format.getSampleSizeInBits() / 8)
                 * _format.getChannels();
         if (nbBytes > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Too many samples. Try using a smaller wav.");
+            throw new IllegalArgumentException(
+                    "Too many samples. Try using a smaller wav.");
         }
         // allocate a byte buffer
         byte[] inBuffer = new byte[(int) nbBytes];
         // read bytes from audio file
         _audioInputStream.read(inBuffer, 0, inBuffer.length);
-        // decode bytes into samples. Supported encodings are:
-        // PCM-SIGNED, PCM-UNSIGNED, A-LAW, U-LAW
+        // decode bytes into samples.
         decodeBytes(inBuffer, samples);
+
+        return samples;
     }
 
     /**
@@ -83,7 +102,7 @@ public class AudioSampleReader {
      * @param channel
      * @param interleavedSamples
      * @param channelSamples
-     */ 
+     */
     public void getChannelSamples(int channel, double[] interleavedSamples,
             double[] channelSamples) {
         int nbChannels = _format.getChannels();
@@ -112,7 +131,7 @@ public class AudioSampleReader {
     }
 
     // Decode bytes of audioBytes into audioSamples
-    private void decodeBytes(byte[] audioBytes, double[] audioSamples) {
+    public void decodeBytes(byte[] audioBytes, double[] audioSamples) {
         int sampleSizeInBytes = _format.getSampleSizeInBits() / 8;
         int[] sampleBytes = new int[sampleSizeInBytes];
         int k = 0; // index in audioBytes
@@ -142,6 +161,14 @@ public class AudioSampleReader {
             double ratio = Math.pow(2., _format.getSampleSizeInBits() - 1);
             double val = ((double) ival) / ratio;
             audioSamples[i] = val;
+        }
+    }
+
+    private static final void checkFormat(AudioFormat af) throws IOException {
+        if (!af.matches(SC_AUDIO_FORMAT)) {
+            throw new IOException("Unsupported audio format.\nReceived: "
+                    + af.toString() + "\nExpected: " + SC_AUDIO_FORMAT);
+
         }
     }
 }
