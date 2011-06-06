@@ -64,7 +64,7 @@ public final class AudioCaptcha {
             // 2. Get a random element from the list of voice producers
             VoiceProducer vProd = _voiceProds.get(RAND.nextInt(_voiceProds
                     .size()));
-            _sound = vProd.getVocalizationOf("1");
+            _sound = vProd.getVocalization();
 
             return new AudioCaptcha(this);
         }
@@ -109,12 +109,13 @@ public final class AudioCaptcha {
         return writeSample(samples1);
     }
 
-    public final static File mixTest(File file1, File file2) throws Exception {
+    public final static File mixTest(File file1) throws Exception {
         // 0. Get an InputStream for the file
         FileInputStream fis1 = new FileInputStream(file1);
 
         // 1. new AudioSampleReader
         AudioSampleReader asr1 = new AudioSampleReader(fis1);
+        System.out.println("[AudioCaptcha] asr1 sample count: " + asr1.getSampleCount());
 
         // 2. get the interleaved samples
         double[] sample1 = asr1.getInterleavedSamples();
@@ -123,24 +124,13 @@ public final class AudioCaptcha {
 
         // WRITE!
         // 3. convert to byte[]
-        // 3a. get size the byte[] needs to be
-        int size = (int) asr1.getSampleCount()
-                * (SC_AUDIO_FORMAT.getSampleSizeInBits() / 8);
-        byte[] buffer = new byte[size];
-
-        // 3b. convert double[] to byte[]
-        int in;
-        for (int i = 0; i < sample1.length; i++) {
-            in = (int) (sample1[i] * 32767);
-            // First byte is in LSB
-            buffer[2 * i] = (byte) (in & 255);
-            buffer[2 * i + 1] = (byte) (in >> 8);
-        }
+        byte[] buffer = AudioSampleReader.asByteArray(asr1.getSampleCount(),
+                sample1);
 
         // 4. Data is now in buffer[]. Convert to ByteArrayInputStream.
         ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
 
-        // Convert to AudioInputStream
+        // 5. Convert to AudioInputStream
         AudioInputStream ais = new AudioInputStream(bais, SC_AUDIO_FORMAT,
                 asr1.getSampleCount());
 
@@ -208,6 +198,6 @@ public final class AudioCaptcha {
     }
 
     private static final String randFileName() {
-        return Long.toHexString(Double.doubleToLongBits(Math.random()));
+        return "audcap" + Long.toHexString(Double.doubleToLongBits(Math.random()));
     }
 }

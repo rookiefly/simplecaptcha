@@ -3,5 +3,5 @@ package nl.captcha.audio.producer;
 import java.io.InputStream;
 
 public interface VoiceProducer {
-    public InputStream getVocalizationOf(String str);
+    public InputStream getVocalization();
 }

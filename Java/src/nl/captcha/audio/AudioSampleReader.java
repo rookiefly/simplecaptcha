@@ -6,8 +6,8 @@ import javax.sound.sampled.*;
 
 public class AudioSampleReader {
 
-    public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(
-            16000, // sample rate
+    public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(16000, // sample
+                                                                             // rate
             16, // sample size in bits
             1, // channels
             true, // signed?
@@ -162,6 +162,35 @@ public class AudioSampleReader {
             double val = ((double) ival) / ratio;
             audioSamples[i] = val;
         }
+    }
+
+    @Override public String toString() {
+        return "[AudioSampleReader] samples: " + getSampleCount()
+                + ", format: " + _format;
+    }
+
+    /**
+     * Helper method to convert a double[] to a byte[] in a format that can be
+     * used by <code>AudioInputStream</code>. Typically this will be used with a
+     * <code>sample</code> that has been modified from its original.
+     * 
+     * @see <a href="http://en.wiktionary.org/wiki/yak_shaving">Yak Shaving</a>
+     * 
+     * @return
+     */
+    public static final byte[] asByteArray(long sampleCount, double[] sample) {
+        int b_len = (int) sampleCount
+                * (SC_AUDIO_FORMAT.getSampleSizeInBits() / 8);
+        byte[] buffer = new byte[b_len];
+
+        int in;
+        for (int i = 0; i < sample.length; i++) {
+            in = (int) (sample[i] * 32767);
+            buffer[2 * i] = (byte) (in & 255);
+            buffer[2 * i + 1] = (byte) (in >> 8);
+        }
+
+        return buffer;
     }
 
     private static final void checkFormat(AudioFormat af) throws IOException {
