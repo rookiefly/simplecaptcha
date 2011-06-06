@@ -6,8 +6,8 @@ import javax.sound.sampled.*;
 
 public class AudioSampleReader {
 
-    public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(16000, // sample
-                                                                             // rate
+    public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(
+            16000, // sample rate
             16, // sample size in bits
             1, // channels
             true, // signed?

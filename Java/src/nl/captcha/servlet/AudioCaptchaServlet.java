@@ -17,29 +17,12 @@ public class AudioCaptchaServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse response) throws ServletException, IOException {
 
-        InputStream is2 = AudioCaptchaServlet.class
-                .getResourceAsStream("/sounds/en/numbers/1-fred.wav");
-        InputStream is1 = AudioCaptchaServlet.class
-                .getResourceAsStream("/sounds/en/numbers/2-fred.wav");
-        AudioCaptcha mixer = new AudioCaptcha(is1, is2);
-        InputStream appendedIs = mixer.append();
-        System.out.println("[AudioCaptchaServlet] done appending voices.");
+        AudioCaptcha ac = new AudioCaptcha.Builder().addAnswer().build();
 
-        InputStream noise = AudioCaptchaServlet.class
-                .getResourceAsStream("/sounds/noise/restaurant.wav");
-        System.out.println("[AudioCaptchaServlet] appending noise to voices.");
-        AudioCaptcha mixer2 = new AudioCaptcha(appendedIs, noise);
-        InputStream mixedIs = mixer2.mix();
+        req.getSession().setAttribute(AudioCaptcha.NAME, ac);
+        InputStream is = ac.getSound();
 
-        System.out
-                .println("[AudioCaptchaServlet] done appending noise to voices.");
-
-        // CaptchaServletUtil.writeAudio(response, mixedIs);
-
-        appendedIs.close();
-        mixedIs.close();
-        is2.close();
-        is1.close();
+        CaptchaServletUtil.writeAudio(response, is);
     }
 
     @Override protected void doPost(HttpServletRequest req,

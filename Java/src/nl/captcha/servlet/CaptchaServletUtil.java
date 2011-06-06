@@ -29,14 +29,14 @@ public final class CaptchaServletUtil {
         }
     }
 
-    public static void writeAudio(HttpServletResponse response, byte[] wav) {
+    public static void writeAudio(HttpServletResponse response, byte[] audio) {
         response.setHeader("Cache-Control", "private,no-cache,no-store");
         response.setContentType("audio/x-wav");
-        response.setContentLength(wav.length);
+        response.setContentLength(audio.length);
 
         try {
             OutputStream os = response.getOutputStream();
-            os.write(wav);
+            os.write(audio);
             os.flush();
             os.close();
         } catch (IOException e) {
