@@ -18,6 +18,7 @@ public class AudioCaptchaServlet extends HttpServlet {
 
         AudioCaptcha ac = new AudioCaptcha.Builder()
             .addAnswer()
+            .addNoise()
             .build();
 
         req.getSession().setAttribute(AudioCaptcha.NAME, ac);

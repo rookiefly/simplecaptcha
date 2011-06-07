@@ -27,8 +27,6 @@ public final class AudioCaptcha {
         private String _answer = "";
         private NoiseProducer _noiseProd;
 
-        // private AudioInputStream _sound;
-
         public Builder addAnswer() {
             return addAnswer(new NumberAnswerProducer());
         }
