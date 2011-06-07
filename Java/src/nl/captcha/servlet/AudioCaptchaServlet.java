@@ -1,7 +1,6 @@
 package nl.captcha.servlet;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,14 +14,14 @@ public class AudioCaptchaServlet extends HttpServlet {
     private static final long serialVersionUID = 4690256047223360039L;
 
     @Override protected void doGet(HttpServletRequest req,
-            HttpServletResponse response) throws ServletException, IOException {
+            HttpServletResponse resp) throws ServletException, IOException {
 
-        AudioCaptcha ac = new AudioCaptcha.Builder().addAnswer().build();
+        AudioCaptcha ac = new AudioCaptcha.Builder()
+            .addAnswer()
+            .build();
 
         req.getSession().setAttribute(AudioCaptcha.NAME, ac);
-        InputStream is = ac.getSound();
-
-        CaptchaServletUtil.writeAudio(response, is);
+        CaptchaServletUtil.writeAudio(resp, ac.getSound());
     }
 
     @Override protected void doPost(HttpServletRequest req,

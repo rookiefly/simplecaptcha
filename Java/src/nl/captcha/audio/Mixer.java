@@ -10,13 +10,17 @@ import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 
 public class Mixer {
-    public final static InputStream append(List<AudioSampleReader> asrs) {
+    public final static AudioInputStream append(List<AudioSampleReader> asrs) {
+        if (asrs.size() == 0) {
+            return buildStream(0, new double[0]);
+        }
+
         int sampleCount = 0;
 
         // append voices to each other
         double[] first = asrs.get(0).getInterleavedSamples();
         sampleCount += asrs.get(0).getSampleCount();
-        
+
         double[][] samples = new double[asrs.size() - 1][];
         for (int i = 0; i < samples.length; i++) {
             samples[i] = asrs.get(i + 1).getInterleavedSamples();
@@ -25,16 +29,19 @@ public class Mixer {
 
         double[] appended = concatAll(first, samples);
 
-        // convert to byte[]
-        byte[] buffer = AudioSampleReader.asByteArray(sampleCount, appended);
-
-        InputStream bais = new ByteArrayInputStream(buffer);
-        InputStream ais = new AudioInputStream(bais, SC_AUDIO_FORMAT,
-                sampleCount);
-
-        return ais;
+        return buildStream(sampleCount, appended);
     }
-    
+
+    public final static AudioInputStream mix(AudioSampleReader asr1,
+            AudioSampleReader asr2) {
+        double[] sample1 = asr1.getInterleavedSamples();
+        double[] sample2 = asr2.getInterleavedSamples();
+
+        double[] mixed = mix(sample1, sample2);
+
+        return buildStream(asr1.getSampleCount(), mixed);
+    }
+
     private static final double[] concatAll(double[] first, double[]... rest) {
         int totalLength = first.length;
         for (double[] array : rest) {
@@ -49,4 +56,21 @@ public class Mixer {
         return result;
     }
 
+    private static final double[] mix(double[] sample1, double[] sample2) {
+        for (int i = 0; i < sample1.length; i++) {
+            if (i >= sample2.length) {
+                sample1[i] = 0;
+                break;
+            }
+            sample1[i] = (sample1[i] + (sample2[i] * 2));
+        }
+        return sample1;
+    }
+
+    private static final AudioInputStream buildStream(long sampleCount,
+            double[] sample) {
+        byte[] buffer = AudioSampleReader.asByteArray(sampleCount, sample);
+        InputStream bais = new ByteArrayInputStream(buffer);
+        return new AudioInputStream(bais, SC_AUDIO_FORMAT, sampleCount);
+    }
 }

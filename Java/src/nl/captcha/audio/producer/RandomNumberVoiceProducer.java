@@ -1,12 +1,20 @@
 package nl.captcha.audio.producer;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import nl.captcha.util.FileUtil;
+
+/**
+ * <code>VoiceProducer</code> which generates a vocalization for a given number,
+ * randomly selecting from a list of voices. Voices are located in the
+ * <code>sounds/en/numbers</code> directory, and have a filename format of
+ * <i>num</i>-<i>voice</i>.wav, e.g.: 1-alex.wav.
+ *
+ * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
+ *
+ */
 public class RandomNumberVoiceProducer implements VoiceProducer {
 
     private static final Random RAND = new SecureRandom();
@@ -21,6 +29,13 @@ public class RandomNumberVoiceProducer implements VoiceProducer {
         this(num, DEFAULT_VOICES);
     }
 
+    /**
+     * Creates a <code>RandomNumberVoiceProducer</code> for the given
+     * <code>num</code> and <code>voices</code>.
+     *
+     * @param num
+     * @param voices
+     */
     public RandomNumberVoiceProducer(char num, String[] voices) {
         try {
             Integer.parseInt(num + "");
@@ -40,27 +55,6 @@ public class RandomNumberVoiceProducer implements VoiceProducer {
         sb.append(_voices[RAND.nextInt(_voices.length)]);
         sb.append(".wav");
 
-        return readFileFromJar(sb.toString());
-    }
-
-    private static final InputStream readFileFromJar(String filename) {
-        InputStream jarIs = RandomNumberVoiceProducer.class
-                .getResourceAsStream(filename);
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        byte[] data = new byte[16384];
-        int nRead;
-
-        try {
-            while ((nRead = jarIs.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-            buffer.flush();
-            jarIs.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ByteArrayInputStream(buffer.toByteArray());
+        return FileUtil.readResource(sb.toString());
     }
 }

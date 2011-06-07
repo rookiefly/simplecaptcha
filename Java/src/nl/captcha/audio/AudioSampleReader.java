@@ -164,14 +164,18 @@ public class AudioSampleReader {
         }
     }
 
-    @Override public String toString() {
-        return "[AudioSampleReader] samples: " + getSampleCount()
-                + ", format: " + _format;
+    /**
+     * Return the interleaved samples as a <code>byte[]</code>.
+     * 
+     * @return
+     */
+    public final byte[] asByteArray() {
+        return asByteArray(getSampleCount(), getInterleavedSamples());
     }
 
     /**
      * Helper method to convert a double[] to a byte[] in a format that can be
-     * used by <code>AudioInputStream</code>. Typically this will be used with a
+     * used by <code>AudioInputStream</code>. Typically, this will be used with a
      * <code>sample</code> that has been modified from its original.
      * 
      * @see <a href="http://en.wiktionary.org/wiki/yak_shaving">Yak Shaving</a>
@@ -191,6 +195,11 @@ public class AudioSampleReader {
         }
 
         return buffer;
+    }
+
+    @Override public String toString() {
+        return "[AudioSampleReader] samples: " + getSampleCount()
+                + ", format: " + _format;
     }
 
     private static final void checkFormat(AudioFormat af) throws IOException {
