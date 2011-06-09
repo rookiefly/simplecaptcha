@@ -16,7 +16,7 @@ public class AudioCaptchaServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        AudioCaptcha ac = new AudioCaptcha.Builder()
+        AudioCaptcha ac = new AudioCaptcha.AudioBuilder()
             .addAnswer()
             .addNoise()
             .build();

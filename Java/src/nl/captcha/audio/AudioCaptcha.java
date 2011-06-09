@@ -16,32 +16,32 @@ public final class AudioCaptcha {
 
     public static final String NAME = "audioCaptcha";
 
-    private Builder _builder;
+    private AudioBuilder _builder;
 
-    private AudioCaptcha(Builder builder) {
+    private AudioCaptcha(AudioBuilder builder) {
         _builder = builder;
     }
 
-    public static class Builder {
+    public static class AudioBuilder {
 
         private String _answer = "";
         private NoiseProducer _noiseProd;
 
-        public Builder addAnswer() {
+        public AudioBuilder addAnswer() {
             return addAnswer(new NumberAnswerProducer());
         }
 
-        public Builder addAnswer(TextProducer ansProd) {
+        public AudioBuilder addAnswer(TextProducer ansProd) {
             _answer += ansProd.getText();
 
             return this;
         }
 
-        public Builder addNoise() {
+        public AudioBuilder addNoise() {
             return addNoise(new BackgroundConversationNoiseProducer());
         }
 
-        public Builder addNoise(NoiseProducer noiseProd) {
+        public AudioBuilder addNoise(NoiseProducer noiseProd) {
             _noiseProd = noiseProd;
 
             return this;
@@ -62,7 +62,7 @@ public final class AudioCaptcha {
     }
 
     public boolean isCorrect(String answer) {
-        return answer.contains(_builder._answer);
+        return answer.equals(_builder._answer);
     }
 
     public String getAnswer() {
