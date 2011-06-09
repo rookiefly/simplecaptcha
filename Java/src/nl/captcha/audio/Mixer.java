@@ -1,6 +1,6 @@
 package nl.captcha.audio;
 
-import static nl.captcha.audio.AudioSampleReader.SC_AUDIO_FORMAT;
+import static nl.captcha.audio.Sample.SC_AUDIO_FORMAT;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -10,36 +10,36 @@ import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 
 public class Mixer {
-    public final static AudioInputStream append(List<AudioSampleReader> asrs) {
-        if (asrs.size() == 0) {
+    public final static AudioInputStream append(List<Sample> samples) {
+        if (samples.size() == 0) {
             return buildStream(0, new double[0]);
         }
 
         int sampleCount = 0;
 
         // append voices to each other
-        double[] first = asrs.get(0).getInterleavedSamples();
-        sampleCount += asrs.get(0).getSampleCount();
+        double[] first = samples.get(0).getInterleavedSamples();
+        sampleCount += samples.get(0).getSampleCount();
 
-        double[][] samples = new double[asrs.size() - 1][];
-        for (int i = 0; i < samples.length; i++) {
-            samples[i] = asrs.get(i + 1).getInterleavedSamples();
-            sampleCount += asrs.get(i + 1).getSampleCount();
+        double[][] samples_ary = new double[samples.size() - 1][];
+        for (int i = 0; i < samples_ary.length; i++) {
+            samples_ary[i] = samples.get(i + 1).getInterleavedSamples();
+            sampleCount += samples.get(i + 1).getSampleCount();
         }
 
-        double[] appended = concatAll(first, samples);
+        double[] appended = concatAll(first, samples_ary);
 
         return buildStream(sampleCount, appended);
     }
 
-    public final static AudioInputStream mix(AudioSampleReader asr1,
-            AudioSampleReader asr2) {
-        double[] sample1 = asr1.getInterleavedSamples();
-        double[] sample2 = asr2.getInterleavedSamples();
+    public final static AudioInputStream mix(Sample sample1,
+            Sample sample2) {
+        double[] s1_ary = sample1.getInterleavedSamples();
+        double[] s2_ary = sample2.getInterleavedSamples();
 
-        double[] mixed = mix(sample1, sample2);
+        double[] mixed = mix(s1_ary, s2_ary);
 
-        return buildStream(asr1.getSampleCount(), mixed);
+        return buildStream(sample1.getSampleCount(), mixed);
     }
 
     private static final double[] concatAll(double[] first, double[]... rest) {
@@ -69,7 +69,7 @@ public class Mixer {
 
     private static final AudioInputStream buildStream(long sampleCount,
             double[] sample) {
-        byte[] buffer = AudioSampleReader.asByteArray(sampleCount, sample);
+        byte[] buffer = Sample.asByteArray(sampleCount, sample);
         InputStream bais = new ByteArrayInputStream(buffer);
         return new AudioInputStream(bais, SC_AUDIO_FORMAT, sampleCount);
     }

@@ -73,16 +73,16 @@ public final class AudioCaptcha {
         // 1. Convert answer to an array
         char[] ansAry = getAnswer().toCharArray();
         VoiceProducer vProd;
-        List<AudioSampleReader> asrs = new ArrayList<AudioSampleReader>();
-        AudioSampleReader asr;
+        List<Sample> samples = new ArrayList<Sample>();
+        Sample sample;
         for (char c : ansAry) {
             vProd = new RandomNumberVoiceProducer(c);
-            asr = new AudioSampleReader(vProd.getVocalization());
-            asrs.add(asr);
+            sample = new Sample(vProd.getVocalization());
+            samples.add(sample);
         }
 
         // 2. Append the voices one to the other
-        AudioInputStream ais = Mixer.append(asrs);
+        AudioInputStream ais = Mixer.append(samples);
 
         // 3. Add noise
         if (_builder._noiseProd != null) {

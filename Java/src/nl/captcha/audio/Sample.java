@@ -4,7 +4,7 @@ import java.io.*;
 
 import javax.sound.sampled.*;
 
-public class AudioSampleReader {
+public class Sample {
 
     public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(
             16000, // sample rate
@@ -16,7 +16,7 @@ public class AudioSampleReader {
     private final AudioInputStream _audioInputStream;
     private final AudioFormat _format;
 
-    public AudioSampleReader(InputStream is) {
+    public Sample(InputStream is) {
         if (is instanceof AudioInputStream) {
             _audioInputStream = (AudioInputStream) is;
             _format = _audioInputStream.getFormat();
@@ -198,7 +198,7 @@ public class AudioSampleReader {
     }
 
     @Override public String toString() {
-        return "[AudioSampleReader] samples: " + getSampleCount()
+        return "[Sample] samples: " + getSampleCount()
                 + ", format: " + _format;
     }
 
