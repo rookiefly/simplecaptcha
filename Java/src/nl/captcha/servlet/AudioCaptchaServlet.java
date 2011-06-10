@@ -16,13 +16,13 @@ public class AudioCaptchaServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        AudioCaptcha ac = new AudioCaptcha.AudioBuilder()
+        AudioCaptcha ac = new AudioCaptcha.Builder()
             .addAnswer()
             .addNoise()
             .build();
 
         req.getSession().setAttribute(AudioCaptcha.NAME, ac);
-        CaptchaServletUtil.writeAudio(resp, ac.getSound());
+        CaptchaServletUtil.writeAudio(resp, ac.getChallenge());
     }
 
     @Override protected void doPost(HttpServletRequest req,

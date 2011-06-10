@@ -1,7 +1,13 @@
 package nl.captcha.audio.producer;
 
-import java.io.InputStream;
+import nl.captcha.audio.Sample;
 
+/**
+ * Generates a vocalization for a single character.
+ * 
+ * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
+ *
+ */
 public interface VoiceProducer {
-    public InputStream getVocalization();
+    public Sample getVocalization(char letter);
 }

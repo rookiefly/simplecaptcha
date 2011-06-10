@@ -8,8 +8,9 @@ import java.io.OutputStream;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+
+import nl.captcha.audio.Sample;
 
 public final class CaptchaServletUtil {
 
@@ -33,14 +34,15 @@ public final class CaptchaServletUtil {
         }
     }
 
-    public static void writeAudio(HttpServletResponse response, AudioInputStream ais) {
+    public static void writeAudio(HttpServletResponse response, Sample sample) {
         response.setHeader("Cache-Control", "private,no-cache,no-store");
         response.setContentType("audio/x-wav");
 
         try {
             // Convert to BAOS so we can set the content-length header
             ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, baos);
+            AudioSystem.write(sample.getAudioInputStream(),
+                    AudioFileFormat.Type.WAVE, baos);
             response.setContentLength(baos.size());
 
             OutputStream os = response.getOutputStream();

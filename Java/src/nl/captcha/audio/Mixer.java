@@ -10,9 +10,9 @@ import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 
 public class Mixer {
-    public final static AudioInputStream append(List<Sample> samples) {
+    public final static Sample append(List<Sample> samples) {
         if (samples.size() == 0) {
-            return buildStream(0, new double[0]);
+            return buildSample(0, new double[0]);
         }
 
         int sampleCount = 0;
@@ -29,17 +29,16 @@ public class Mixer {
 
         double[] appended = concatAll(first, samples_ary);
 
-        return buildStream(sampleCount, appended);
+        return buildSample(sampleCount, appended);
     }
 
-    public final static AudioInputStream mix(Sample sample1,
-            Sample sample2) {
+    public final static Sample mix(Sample sample1, Sample sample2) {
         double[] s1_ary = sample1.getInterleavedSamples();
         double[] s2_ary = sample2.getInterleavedSamples();
 
         double[] mixed = mix(s1_ary, s2_ary);
 
-        return buildStream(sample1.getSampleCount(), mixed);
+        return buildSample(sample1.getSampleCount(), mixed);
     }
 
     private static final double[] concatAll(double[] first, double[]... rest) {
@@ -72,5 +71,10 @@ public class Mixer {
         byte[] buffer = Sample.asByteArray(sampleCount, sample);
         InputStream bais = new ByteArrayInputStream(buffer);
         return new AudioInputStream(bais, SC_AUDIO_FORMAT, sampleCount);
+    }
+
+    private static final Sample buildSample(long sampleCount, double[] sample) {
+        AudioInputStream ais = buildStream(sampleCount, sample);
+        return new Sample(ais);
     }
 }

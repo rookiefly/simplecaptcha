@@ -5,7 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import nl.captcha.audio.Sample;
+
 public class FileUtil {
+
     /**
      * Get a file resource and return it as an InputStream. Intended primarily
      * to read in binary files which are contained in a jar.
@@ -31,5 +34,10 @@ public class FileUtil {
         }
 
         return new ByteArrayInputStream(buffer.toByteArray());
+    }
+
+    public static final Sample readSample(String filename) {
+        InputStream is = readResource(filename);
+        return new Sample(is);
     }
 }

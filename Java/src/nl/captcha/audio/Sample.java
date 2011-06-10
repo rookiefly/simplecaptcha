@@ -14,28 +14,31 @@ public class Sample {
             false); // big endian?;
 
     private final AudioInputStream _audioInputStream;
-    private final AudioFormat _format;
 
     public Sample(InputStream is) {
         if (is instanceof AudioInputStream) {
             _audioInputStream = (AudioInputStream) is;
-            _format = _audioInputStream.getFormat();
             return;
         }
 
         try {
             _audioInputStream = AudioSystem.getAudioInputStream(is);
-            _format = _audioInputStream.getFormat();
-            checkFormat(_format);
+
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        checkFormat(_audioInputStream.getFormat());
+    }
+
+    public AudioInputStream getAudioInputStream() {
+        return _audioInputStream;
     }
 
     public AudioFormat getFormat() {
-        return _format;
+        return _audioInputStream.getFormat();
     }
 
     /**
@@ -45,9 +48,9 @@ public class Sample {
      */
     public long getSampleCount() {
         long total = (_audioInputStream.getFrameLength()
-                * _format.getFrameSize() * 8)
-                / _format.getSampleSizeInBits();
-        return total / _format.getChannels();
+                * getFormat().getFrameSize() * 8)
+                / getFormat().getSampleSizeInBits();
+        return total / getFormat().getChannels();
     }
 
     public double[] getInterleavedSamples() {
@@ -79,8 +82,8 @@ public class Sample {
     public double[] getInterleavedSamples(long begin, long end, double[] samples)
             throws IOException, IllegalArgumentException {
         long nbSamples = end - begin;
-        long nbBytes = nbSamples * (_format.getSampleSizeInBits() / 8)
-                * _format.getChannels();
+        long nbBytes = nbSamples * (getFormat().getSampleSizeInBits() / 8)
+                * getFormat().getChannels();
         if (nbBytes > Integer.MAX_VALUE) {
             throw new IllegalArgumentException(
                     "Too many samples. Try using a smaller wav.");
@@ -105,7 +108,7 @@ public class Sample {
      */
     public void getChannelSamples(int channel, double[] interleavedSamples,
             double[] channelSamples) {
-        int nbChannels = _format.getChannels();
+        int nbChannels = getFormat().getChannels();
         for (int i = 0; i < channelSamples.length; i++) {
             channelSamples[i] = interleavedSamples[nbChannels * i + channel];
         }
@@ -132,12 +135,12 @@ public class Sample {
 
     // Decode bytes of audioBytes into audioSamples
     public void decodeBytes(byte[] audioBytes, double[] audioSamples) {
-        int sampleSizeInBytes = _format.getSampleSizeInBits() / 8;
+        int sampleSizeInBytes = getFormat().getSampleSizeInBits() / 8;
         int[] sampleBytes = new int[sampleSizeInBytes];
         int k = 0; // index in audioBytes
         for (int i = 0; i < audioSamples.length; i++) {
             // collect sample byte in big-endian order
-            if (_format.isBigEndian()) {
+            if (getFormat().isBigEndian()) {
                 // bytes start with MSB
                 for (int j = 0; j < sampleSizeInBytes; j++) {
                     sampleBytes[j] = audioBytes[k++];
@@ -158,7 +161,7 @@ public class Sample {
                     ival <<= 8;
             }
             // decode value
-            double ratio = Math.pow(2., _format.getSampleSizeInBits() - 1);
+            double ratio = Math.pow(2., getFormat().getSampleSizeInBits() - 1);
             double val = ((double) ival) / ratio;
             audioSamples[i] = val;
         }
@@ -175,8 +178,8 @@ public class Sample {
 
     /**
      * Helper method to convert a double[] to a byte[] in a format that can be
-     * used by <code>AudioInputStream</code>. Typically, this will be used with a
-     * <code>sample</code> that has been modified from its original.
+     * used by <code>AudioInputStream</code>. Typically, this will be used with
+     * a <code>sample</code> that has been modified from its original.
      * 
      * @see <a href="http://en.wiktionary.org/wiki/yak_shaving">Yak Shaving</a>
      * 
@@ -198,14 +201,15 @@ public class Sample {
     }
 
     @Override public String toString() {
-        return "[Sample] samples: " + getSampleCount()
-                + ", format: " + _format;
+        return "[Sample] samples: " + getSampleCount() + ", format: "
+                + getFormat();
     }
 
-    private static final void checkFormat(AudioFormat af) throws IOException {
+    private static final void checkFormat(AudioFormat af) {
         if (!af.matches(SC_AUDIO_FORMAT)) {
-            throw new IOException("Unsupported audio format.\nReceived: "
-                    + af.toString() + "\nExpected: " + SC_AUDIO_FORMAT);
+            throw new IllegalArgumentException(
+                    "Unsupported audio format.\nReceived: " + af.toString()
+                            + "\nExpected: " + SC_AUDIO_FORMAT);
 
         }
     }
