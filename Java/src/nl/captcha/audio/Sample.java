@@ -178,9 +178,10 @@ public class Sample {
 
     /**
      * Helper method to convert a double[] to a byte[] in a format that can be
-     * used by <code>AudioInputStream</code>. Typically, this will be used with
-     * a <code>sample</code> that has been modified from its original.
-     * 
+     * used by {@link AudioInputStream}. Typically this will be used with
+     * a {@link Sample} that has been modified from its original.
+     *
+     *
      * @see <a href="http://en.wiktionary.org/wiki/yak_shaving">Yak Shaving</a>
      * 
      * @return

@@ -2,6 +2,7 @@ package nl.captcha.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,6 +19,11 @@ public class FileUtil {
      */
     public static final InputStream readResource(String filename) {
         InputStream jarIs = FileUtil.class.getResourceAsStream(filename);
+        if (jarIs == null) {
+            throw new RuntimeException(new FileNotFoundException("File '"
+                    + filename + "' not found."));
+        }
+
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
         byte[] data = new byte[16384];

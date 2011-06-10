@@ -9,7 +9,7 @@ import nl.captcha.audio.noise.RandomNoiseProducer;
 import nl.captcha.audio.noise.NoiseProducer;
 import nl.captcha.audio.producer.RandomNumberVoiceProducer;
 import nl.captcha.audio.producer.VoiceProducer;
-import nl.captcha.text.producer.NumberAnswerProducer;
+import nl.captcha.text.producer.NumbersAnswerProducer;
 import nl.captcha.text.producer.TextProducer;
 
 public final class AudioCaptcha {
@@ -26,15 +26,17 @@ public final class AudioCaptcha {
     public static class Builder {
 
         private String _answer = "";
-        private List<VoiceProducer> _vProds;
-        private NoiseProducer _noiseProd;
+        private Sample _challenge;
+        private List<VoiceProducer> _voiceProds;
+        private List<NoiseProducer> _noiseProds;
 
         public Builder() {
-            _vProds = new ArrayList<VoiceProducer>();
+            _voiceProds = new ArrayList<VoiceProducer>();
+            _noiseProds = new ArrayList<NoiseProducer>();
         }
 
         public Builder addAnswer() {
-            return addAnswer(new NumberAnswerProducer());
+            return addAnswer(new NumbersAnswerProducer());
         }
 
         public Builder addAnswer(TextProducer ansProd) {
@@ -43,8 +45,14 @@ public final class AudioCaptcha {
             return this;
         }
 
+        public Builder addVoice() {
+            _voiceProds.add(new RandomNumberVoiceProducer());
+
+            return this;
+        }
+
         public Builder addVoice(VoiceProducer vProd) {
-            _vProds.add(vProd);
+            _voiceProds.add(vProd);
 
             return this;
         }
@@ -54,16 +62,42 @@ public final class AudioCaptcha {
         }
 
         public Builder addNoise(NoiseProducer noiseProd) {
-            _noiseProd = noiseProd;
+            _noiseProds.add(noiseProd);
 
             return this;
         }
 
         public AudioCaptcha build() {
-            // Make sure there is at least one voice producer
-            if (_vProds.size() == 0) {
-                _vProds.add(new RandomNumberVoiceProducer());
+            // Make sure we have at least one voiceProducer
+            if (_voiceProds.size() == 0) {
+                addVoice();
             }
+
+            // Convert answer to an array
+            char[] ansAry = _answer.toCharArray();
+
+            // Make a List of Samples for each character
+            VoiceProducer vProd;
+            List<Sample> samples = new ArrayList<Sample>();
+            Sample sample;
+            for (int i = 0; i < ansAry.length; i++) {
+                // Create Sample for this character from one of the
+                // VoiceProducers
+                vProd = _voiceProds.get(RAND.nextInt(_voiceProds.size()));
+                sample = vProd.getVocalization(ansAry[i]);
+                samples.add(sample);
+            }
+
+            // 3. Add noise, if any, and return the result
+            if (_noiseProds.size() > 0) {
+                NoiseProducer nProd = _noiseProds.get(RAND.nextInt(_noiseProds
+                        .size()));
+                _challenge = nProd.addNoise(samples);
+
+                return new AudioCaptcha(this);
+            }
+
+            _challenge = Mixer.append(samples);
 
             return new AudioCaptcha(this);
         }
@@ -87,24 +121,7 @@ public final class AudioCaptcha {
     }
 
     public Sample getChallenge() {
-        // 1. Convert answer to an array
-        char[] ansAry = getAnswer().toCharArray();
-        VoiceProducer vProd;
-        List<Sample> samples = new ArrayList<Sample>();
-        for (int i = 0; i < ansAry.length; i++) {
-            vProd = _builder._vProds.get(RAND.nextInt(_builder._vProds.size()));
-            samples.add(vProd.getVocalization(ansAry[i]));
-        }
-
-        // 2. Append the voices one to the other
-        Sample appended = Mixer.append(samples);
-
-        // 3. Add noise
-        if (_builder._noiseProd != null) {
-            appended = _builder._noiseProd.addNoise(appended);
-        }
-
-        return appended;
+        return _builder._challenge;
     }
 
     @Override public String toString() {
