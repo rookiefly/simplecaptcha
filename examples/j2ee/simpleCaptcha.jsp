@@ -13,6 +13,6 @@
 <img src="<c:url value="simpleCaptcha.png" />"><br />
 <p>A simple CAPTCHA which generates a new CAPTCHA on each page reload.</p>
 
-<p>Simple CAPTCHA</a> | <a href="<c:url value="stickyCaptcha.jsp" />">Sticky CAPTCHA</a></p>
+<p>Simple CAPTCHA | <a href="<c:url value="stickyCaptcha.jsp" />">Sticky CAPTCHA</a> | <a href="<c:url value="audioCaptcha.jsp" />">Audio CAPTCHA</a></p>
 </body>
 </html>

@@ -17,6 +17,6 @@
     <p>A CAPTCHA which sticks to the user's session. Successive reloads should render the same CAPTCHA.</p>
     <p><a href="remove.jsp">Remove from session</a></p>
 
-    <p><a href="<c:url value="simpleCaptcha.jsp" />">Simple CAPTCHA</a> | Sticky CAPTCHA </p>
+    <p><a href="<c:url value="simpleCaptcha.jsp" />">Simple CAPTCHA</a> | Sticky CAPTCHA  | <a href="<c:url value="audioCaptcha.jsp" />">Audio CAPTCHA</a></p>
 </body>
 </html>

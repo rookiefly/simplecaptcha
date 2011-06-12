@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import nl.captcha.audio.AudioCaptcha;
 
+/**
+ * Generates a new @{link AudioCaptcha} for each page reload.
+ * 
+ * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
+ */
 public class AudioCaptchaServlet extends HttpServlet {
 
     private static final long serialVersionUID = 4690256047223360039L;
@@ -21,7 +26,6 @@ public class AudioCaptchaServlet extends HttpServlet {
             .addNoise()
             .build();
 
-        req.getSession().setAttribute(AudioCaptcha.NAME, ac);
         CaptchaServletUtil.writeAudio(resp, ac.getChallenge());
     }
 
