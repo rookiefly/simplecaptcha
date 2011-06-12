@@ -12,6 +12,24 @@ import nl.captcha.audio.producer.VoiceProducer;
 import nl.captcha.text.producer.NumbersAnswerProducer;
 import nl.captcha.text.producer.TextProducer;
 
+/**
+ * A builder for generating a CAPTCHA audio/answer pair.
+ *
+ * <p>
+ * Example for generating a new CAPTCHA:
+ * </p>
+ * 
+ * <pre>
+ * AudioCaptcha ac = new AudioCaptcha.Builder().addAnswer().addNoise().build();
+ * </pre>
+ * <p>
+ * Note that the <code>build()</code> method must always be called last. Other
+ * methods are optional.
+ * </p>
+ *
+ * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
+ *
+ */
 public final class AudioCaptcha {
 
     public static final String NAME = "audioCaptcha";

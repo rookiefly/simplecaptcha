@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import nl.captcha.audio.AudioCaptcha;
 
 /**
- * Generates a new @{link AudioCaptcha} for each page reload.
+ * Generates a new @{link AudioCaptcha} and writes the associated @{link Sample}
+ * to the response. Reloading this servlet will generate a new @{link
+ * AudioCaptcha}.
  * 
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  */
@@ -21,10 +23,8 @@ public class AudioCaptchaServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        AudioCaptcha ac = new AudioCaptcha.Builder()
-            .addAnswer()
-            .addNoise()
-            .build();
+        AudioCaptcha ac = new AudioCaptcha.Builder().addAnswer().addNoise()
+                .build();
 
         CaptchaServletUtil.writeAudio(resp, ac.getChallenge());
     }

@@ -4,6 +4,26 @@ import java.io.*;
 
 import javax.sound.sampled.*;
 
+/**
+ * Class representing a sound sample, typically read in from a file. Note that
+ * at this time this class only supports wav files with the following
+ * characteristics:
+ * <ul>
+ * <li>Sample rate: 16KHz</li>
+ * <li>Sample size: 16 bits</li>
+ * <li>Channels: 1</li>
+ * <li>Signed: true</li>
+ * <li>Big Endian: false</li>
+ * </ul>
+ * 
+ * <p>
+ * Data files in other formats will cause an
+ * <code>IllegalArgumentException</code> to be thrown.
+ * </p>
+ * 
+ * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
+ * 
+ */
 public class Sample {
 
     public static final AudioFormat SC_AUDIO_FORMAT = new AudioFormat(
@@ -180,7 +200,6 @@ public class Sample {
      * Helper method to convert a double[] to a byte[] in a format that can be
      * used by {@link AudioInputStream}. Typically this will be used with
      * a {@link Sample} that has been modified from its original.
-     *
      *
      * @see <a href="http://en.wiktionary.org/wiki/yak_shaving">Yak Shaving</a>
      * 

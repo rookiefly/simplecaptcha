@@ -16,7 +16,7 @@
 <br>
 
 <h3>SimpleCAPTCHA - Audio Example</h3>
-<p>This page is used to demonstrate an audio CAPTCHA using the SimpleCaptcha framework. Below you should see audio controls. If you don't, click <a href="/audio.wav">here</a> to browse directly to the servlet. Reloading the page will generate a new audio CAPTCHA.</p>
+<p>This page is used to demonstrate an audio CAPTCHA using the SimpleCaptcha framework. Below you should see audio controls. If you don't, click <a href="<c:url value="audio.wav" />">here</a> to browse directly to the servlet. Reloading the page will generate a new audio CAPTCHA.</p>
 
 <audio controls autoplay id="audioCaptcha"></audio>
 

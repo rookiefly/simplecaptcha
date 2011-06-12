@@ -9,6 +9,12 @@ import java.util.List;
 
 import javax.sound.sampled.AudioInputStream;
 
+/**
+ * Helper class for operating on audio @{link Sample}s.
+ *
+ * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
+ *
+ */
 public class Mixer {
     public final static Sample append(List<Sample> samples) {
         if (samples.size() == 0) {
