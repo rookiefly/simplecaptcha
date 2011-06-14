@@ -10,7 +10,7 @@ import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 
 /**
- * Helper class for operating on audio @{link Sample}s.
+ * Helper class for operating on audio {@link Sample}s.
  *
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  *

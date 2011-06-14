@@ -10,7 +10,17 @@ import nl.captcha.util.FileUtil;
 
 /**
  * Adds noise to a {@link Sample} from one of the given <code>noiseFiles</code>.
- * 
+ * By default this noise comes from one of three files, all located in
+ * <code>/sounds/noises/</code>: <code>radio_tuning.wav</code>,
+ * <code>restaurant.wav</code>, and <code>swimming.wav</code>. This can be
+ * overridden by passing the location of your own sound files to the
+ * constructor, e.g.:
+ *
+ * <pre>
+ * String myFiles = { "/mysounds/noise1.wav", "/mysounds/noise2.wav" };
+ * NoiseProducer myNp = new RandomNoiseProducer(myFiles);
+ * </pre>
+ *
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  * 
  */
@@ -18,8 +28,7 @@ public class RandomNoiseProducer implements NoiseProducer {
 
     private static final Random RAND = new SecureRandom();
     private static final String[] DEFAULT_NOISES = {
-            "/sounds/noises/radio_tuning.wav",
-            "/sounds/noises/restaurant.wav",
+            "/sounds/noises/radio_tuning.wav", "/sounds/noises/restaurant.wav",
             "/sounds/noises/swimming.wav", };
 
     private final String _noiseFiles[];

@@ -30,7 +30,7 @@ public class RandomNumberVoiceProducer implements VoiceProducer {
 
     /**
      * Creates a <code>RandomNumberVoiceProducer</code> for the given
-     * <code>num</code> and <code>voices</code>.
+     * <code>voices</code>.
      *
      * @param voices
      */

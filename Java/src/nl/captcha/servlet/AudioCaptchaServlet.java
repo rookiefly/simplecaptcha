@@ -11,9 +11,7 @@ import nl.captcha.Captcha;
 import nl.captcha.audio.AudioCaptcha;
 
 /**
- * Generates a new @{link AudioCaptcha} and writes the associated @{link Sample}
- * to the response. Reloading this servlet will generate a new @{link
- * AudioCaptcha}.
+ * Generates a new {@link AudioCaptcha} and writes the audio to the response.
  *
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  */
