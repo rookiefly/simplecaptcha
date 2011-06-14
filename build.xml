@@ -69,7 +69,7 @@
             windowtitle="SimpleCaptcha API">
             <classpath refid="simplecaptcha.classpath"/>
             <doctitle><![CDATA[<h1>SimpleCaptcha</h1>]]></doctitle>
-            <bottom><![CDATA[<i>Copyright &#169; 2010 James Childers. All Rights Reserved.</i>]]></bottom>
+            <bottom><![CDATA[<i>Copyright &#169; 2010-2011 James Childers. All Rights Reserved.</i>]]></bottom>
         </javadoc>
         <echo message="Javadocs built to docs/output/javadocs" />
     </target>

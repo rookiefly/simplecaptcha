@@ -32,7 +32,6 @@ public class RandomNumberVoiceProducer implements VoiceProducer {
      * Creates a <code>RandomNumberVoiceProducer</code> for the given
      * <code>num</code> and <code>voices</code>.
      *
-     * @param num
      * @param voices
      */
     public RandomNumberVoiceProducer(String[] voices) {

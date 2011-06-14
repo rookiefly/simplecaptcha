@@ -15,7 +15,7 @@ public class FileUtil {
      * to read in binary files which are contained in a jar.
      * 
      * @param filename
-     * @return
+     * @return An @{link InputStream} to the file
      */
     public static final InputStream readResource(String filename) {
         InputStream jarIs = FileUtil.class.getResourceAsStream(filename);

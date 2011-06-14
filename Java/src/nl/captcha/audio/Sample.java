@@ -64,7 +64,7 @@ public class Sample {
     /**
      * Return the number of samples of all channels
      * 
-     * @return
+     * @return The number of samples for all channels
      */
     public long getSampleCount() {
         long total = (_audioInputStream.getFrameLength()
@@ -190,7 +190,7 @@ public class Sample {
     /**
      * Return the interleaved samples as a <code>byte[]</code>.
      * 
-     * @return
+     * @return The interleaved samples
      */
     public final byte[] asByteArray() {
         return asByteArray(getSampleCount(), getInterleavedSamples());
@@ -202,8 +202,8 @@ public class Sample {
      * a {@link Sample} that has been modified from its original.
      *
      * @see <a href="http://en.wiktionary.org/wiki/yak_shaving">Yak Shaving</a>
-     * 
-     * @return
+     *
+     * @return A byte[] representing a sample
      */
     public static final byte[] asByteArray(long sampleCount, double[] sample) {
         int b_len = (int) sampleCount
