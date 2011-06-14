@@ -6,6 +6,7 @@
     <title>SimpleCAPTCHA - Audio Example</title>
     <link href="sc.css" type="text/css" rel="stylesheet" />
     <script>
+    /* Add bogus req param to url so that reloading will (hopefully) load a different .wav file. */
     function loadAudio() {
         document.getElementById("audioCaptcha").src = "audio.wav?bogus=" + new Date().getTime();
         document.getElementById("audioSupport").innerHTML = document.createElement('audio').canPlayType("audio/wav");

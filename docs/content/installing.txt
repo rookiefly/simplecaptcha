@@ -1,5 +1,5 @@
 ---
-title:      SimpleCaptcha - Installing
+title:      Installing 
 created_at: 2009-02-10 11:21:53.587078 -06:00
 filter:
   - erb
@@ -7,16 +7,18 @@ filter:
 ---
 h2. Installing
 
-Installing SimpleCaptcha is no different than installing most other libraries for a J2EE container: a jar is deployed to WEB-INF/lib and web.xml is updated. These steps are described in detail below.
+The process for installing SimpleCaptcha is no different than installing most other libraries for a J2EE container: a jar is deployed to WEB-INF/lib and web.xml is updated. These steps are described for reference below.
 
 # Download SimpleCaptcha
-# Copy the jar file to your WEB-INF/lib directory
-# Add a mapping to web.xml. There are three servlets provided out of the box: <code>StickyCaptchaServlet</code>, <code>SimpleCaptchaServlet</code>, and <code>ChineseCaptchaServlet</code>. All generate CAPTCHA image/answer pairs, but <code>StickyCaptchaServlet</code> and <code>ChineseCaptchaServlet</code> are "sticky" to the user's session: page reloads will render the same CAPTCHA instead of generating a new one. An example mapping for StickyCaptchaServlet:
+# Copy the SimpleCaptcha jar file to your WEB-INF/lib directory
+# Add servlet mappings to web.xml. Four servlets are provided for you: <code>StickyCaptchaServlet</code>, <code>SimpleCaptchaServlet</code>, <code>ChineseCaptchaServlet</code>, and <code>AudioCaptchaServlet</code>. All generate CAPTCHA challenge/answer pairs, but <code>StickyCaptchaServlet</code> and <code>ChineseCaptchaServlet</code> are "sticky" to the user's session: page reloads will render the same CAPTCHA instead of generating a new one. An example mapping for StickyCaptchaServlet:
 
 <% coderay :lang => 'xml' do -%>
     <servlet>
         <servlet-name>StickyCaptcha</servlet-name>
         <servlet-class>nl.captcha.servlet.StickyCaptchaServlet</servlet-class>
+        <!-- The width and height params are optional; 
+        if unspecified they default to 200 and 50 respectively. --!>
         <init-param>
             <param-name>width</param-name>
             <param-value>250</param-value>
@@ -34,12 +36,25 @@ Installing SimpleCaptcha is no different than installing most other libraries fo
 
 <% end -%>
 
-The @width@ and @height@ parameters are optional; if unprovided the image will default to 200x50.
+And for <code>AudioCaptchaServlet</code>:
+
+<% coderay :lang => 'xml' do -%>
+    <servlet>
+        <servlet-name>AudioCaptcha</servlet-name>
+        <servlet-class>nl.captcha.servlet.AudioCaptchaServlet</servlet-class>
+    </servlet>
+
+     <servlet-mapping>
+        <servlet-name>AudioCaptcha</servlet-name>
+        <url-pattern>/audio.wav</url-pattern>
+    </servlet-mapping>
+ 
+<% end -%>
 
 <ol start="4">
 <li>Restart your webserver.</li>
-<li>Browse to the location given by the @url-pattern@ defined in @web.xml@, e.g., @http://localhost:8080/stickyImg@. If everything has been set up correctly you should see a CAPTCHA image.</li>
-<li>Now create a JSP called <code>captcha.jsp</code>. Add the following code inside the <code><body></code> element:</li></ol>
+<li>Browse to one of the locations given by the @url-pattern@s defined in @web.xml@, e.g., @http://localhost:8080/stickyImg@. If everything has been set up correctly you should see/hear a CAPTCHA challenge.</li>
+<li>Now create a JSP called @captcha.jsp@. For an image CAPTCHA, add the following code inside the @<body>@ element:</li></ol>
  
 <% coderay :lang => 'html' do -%>
     <img src="/stickyImg" />
@@ -49,8 +64,16 @@ The @width@ and @height@ parameters are optional; if unprovided the image will d
 
 <% end -%>
 
+<p>Or for an audio CAPTCHA:</p>
+<% coderay :lang => 'html' do -%>
+    <audio controls autoplay src="/audio.wav"></audio>
+    <form action="/captchaSubmit.jsp" method="post">
+        <input name="answer" />
+    </form>
+<% end -%>
+
 <ol start="7">
-<li>Create another JSP called <code>captchaSubmit.jsp</code>. Add the following:</li></ol>
+<li>Create another JSP called @captchaSubmit.jsp@. Add the following:</li></ol>
 
 <% coderay :lang => 'php' do -%>
     <%="<"%>%@ page import="nl.captcha.Captcha" %>
@@ -58,6 +81,8 @@ The @width@ and @height@ parameters are optional; if unprovided the image will d
     <%="<"%>% // We're doing this in a JSP here, but in your own app you'll want to put
     // this logic in your MVC framework of choice.
     Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
+    // Or, for an AudioCaptcha:
+    // AudioCaptcha captcha = (AudioCaptcha) session.getAttribute(Captcha.NAME);
     request.setCharacterEncoding("UTF-8"); // Do this so we can capture non-Latin chars
     String answer = request.getParameter("answer");
     if (captcha.isCorrect(answer)) { %>

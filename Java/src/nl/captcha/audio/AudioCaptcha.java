@@ -20,7 +20,10 @@ import nl.captcha.text.producer.TextProducer;
  * </p>
  * 
  * <pre>
- * AudioCaptcha ac = new AudioCaptcha.Builder().addAnswer().addNoise().build();
+ * AudioCaptcha ac = new AudioCaptcha.Builder()
+ *   .addAnswer()
+ *   .addNoise()
+ *   .build();
  * </pre>
  * <p>
  * Note that the <code>build()</code> method must always be called last. Other

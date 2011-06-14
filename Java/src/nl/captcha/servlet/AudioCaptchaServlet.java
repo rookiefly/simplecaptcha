@@ -7,13 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.captcha.Captcha;
 import nl.captcha.audio.AudioCaptcha;
 
 /**
  * Generates a new @{link AudioCaptcha} and writes the associated @{link Sample}
  * to the response. Reloading this servlet will generate a new @{link
  * AudioCaptcha}.
- * 
+ *
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  */
 public class AudioCaptchaServlet extends HttpServlet {
@@ -23,9 +24,12 @@ public class AudioCaptchaServlet extends HttpServlet {
     @Override protected void doGet(HttpServletRequest req,
             HttpServletResponse resp) throws ServletException, IOException {
 
-        AudioCaptcha ac = new AudioCaptcha.Builder().addAnswer().addNoise()
-                .build();
+        AudioCaptcha ac = new AudioCaptcha.Builder()
+            .addAnswer()
+            .addNoise()
+            .build();
 
+        req.getSession().setAttribute(Captcha.NAME, ac);
         CaptchaServletUtil.writeAudio(resp, ac.getChallenge());
     }
 
