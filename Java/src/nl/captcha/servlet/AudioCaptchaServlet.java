@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.captcha.Captcha;
 import nl.captcha.audio.AudioCaptcha;
 
 /**
@@ -27,7 +26,7 @@ public class AudioCaptchaServlet extends HttpServlet {
             .addNoise()
             .build();
 
-        req.getSession().setAttribute(Captcha.NAME, ac);
+        req.getSession().setAttribute(AudioCaptcha.NAME, ac);
         CaptchaServletUtil.writeAudio(resp, ac.getChallenge());
     }
 
