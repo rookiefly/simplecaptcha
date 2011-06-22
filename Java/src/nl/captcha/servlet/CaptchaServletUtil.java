@@ -36,7 +36,7 @@ public final class CaptchaServletUtil {
 
     public static void writeAudio(HttpServletResponse response, Sample sample) {
         response.setHeader("Cache-Control", "private,no-cache,no-store");
-        response.setContentType("audio/x-wav");
+        response.setContentType("audio/wave");
 
         try {
             // Convert to BAOS so we can set the content-length header
