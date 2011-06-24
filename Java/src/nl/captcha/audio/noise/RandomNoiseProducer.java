@@ -28,11 +28,11 @@ public class RandomNoiseProducer implements NoiseProducer {
 
     private static final Random RAND = new SecureRandom();
     private static final String[] DEFAULT_NOISES = {
-            "/sounds/noises/radio_tuning.wav", "/sounds/noises/restaurant.wav",
+            "/sounds/noises/radio_tuning.wav", 
+            "/sounds/noises/restaurant.wav",
             "/sounds/noises/swimming.wav", };
 
     private final String _noiseFiles[];
-    private final String _noiseFile;
 
     public RandomNoiseProducer() {
         this(DEFAULT_NOISES);
@@ -40,12 +40,12 @@ public class RandomNoiseProducer implements NoiseProducer {
 
     public RandomNoiseProducer(String[] noiseFiles) {
         _noiseFiles = noiseFiles;
-        _noiseFile = _noiseFiles[RAND.nextInt(_noiseFiles.length)];
     }
 
     @Override public Sample addNoise(List<Sample> samples) {
         Sample appended = Mixer.append(samples);
-        Sample noise = FileUtil.readSample(_noiseFile);
+        String noiseFile = _noiseFiles[RAND.nextInt(_noiseFiles.length)];
+        Sample noise = FileUtil.readSample(noiseFile);
 
         // Decrease the volume of the noise to make sure the voices can be heard
         return Mixer.mix(appended, 1.0, noise, 0.6);
@@ -53,9 +53,7 @@ public class RandomNoiseProducer implements NoiseProducer {
 
     @Override public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("[File: ");
-        sb.append(_noiseFile);
-        sb.append("][Files to choose from: ");
+        sb.append("[Noise files: ");
         sb.append(_noiseFiles);
         sb.append("]");
 
