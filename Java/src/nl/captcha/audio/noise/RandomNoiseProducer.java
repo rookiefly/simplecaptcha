@@ -15,12 +15,12 @@ import nl.captcha.util.FileUtil;
  * <code>restaurant.wav</code>, and <code>swimming.wav</code>. This can be
  * overridden by passing the location of your own sound files to the
  * constructor, e.g.:
- *
+ * 
  * <pre>
- * String myFiles = { "/mysounds/noise1.wav", "/mysounds/noise2.wav" };
+ * String myFiles = { &quot;/mysounds/noise1.wav&quot;, &quot;/mysounds/noise2.wav&quot; };
  * NoiseProducer myNp = new RandomNoiseProducer(myFiles);
  * </pre>
- *
+ * 
  * @author <a href="mailto:james.childers@gmail.com">James Childers</a>
  * 
  */
@@ -42,6 +42,11 @@ public class RandomNoiseProducer implements NoiseProducer {
         _noiseFiles = noiseFiles;
     }
 
+    /**
+     * Append the given <code>samples</code> to each other, then add random
+     * noise to the result.
+     * 
+     */
     @Override public Sample addNoise(List<Sample> samples) {
         Sample appended = Mixer.append(samples);
         String noiseFile = _noiseFiles[RAND.nextInt(_noiseFiles.length)];
