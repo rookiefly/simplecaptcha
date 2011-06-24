@@ -1,7 +1,7 @@
 <project basedir="." default="build-jar" name="simplecaptcha">
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
-    <property name="version.num" value="1.2" />
+    <property name="version.num" value="1.2.1" />
     <property environment="env" />
 
     <path id="simplecaptcha.classpath">
