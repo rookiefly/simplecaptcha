@@ -44,7 +44,7 @@ filter:
         <h4><a href="/index.html">Home</a></h4>
         <h4>Download SimpleCaptcha</h4>
         <ul>
-            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.2.jar/download">SimpleCaptcha for Java 6</a></li>
+            <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.2.1.jar/download">SimpleCaptcha for Java 6</a></li>
             <li><a href="http://sourceforge.net/projects/simplecaptcha/files/simplecaptcha-1.2-jdk1.5.jar/download">SimpleCaptcha for Java 1.5</a></li>
         </ul>
         <h4><a href="/installing.html">Installing</a></h4>
