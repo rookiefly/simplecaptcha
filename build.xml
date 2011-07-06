@@ -70,18 +70,7 @@
             <classpath refid="simplecaptcha.classpath"/>
             <doctitle><![CDATA[<h1>SimpleCaptcha</h1>]]></doctitle>
             <bottom><![CDATA[<i>Copyright &#169; 2010-2011 James Childers. All Rights Reserved.</i>
-                <!-- Piwik -->
-                <script type="text/javascript">
-                    var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/simplecaptcha/" : "http://sourceforge.net/apps/piwik/simplecaptcha/");
-                    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-                    </script><script type="text/javascript">
-                    try {
-                    var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
-                    piwikTracker.trackPageView();
-                    piwikTracker.enableLinkTracking();
-                    } catch( err ) {}
-                </script><noscript><p><img src="http://sourceforge.net/apps/piwik/simplecaptcha/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
-                <!-- End Piwik Tag -->
+<!-- Piwik --> <script type="text/javascript"> var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/simplecaptcha/" : "http://sourceforge.net/apps/piwik/simplecaptcha/"); document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E")); </script><script type="text/javascript"> try { var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1); piwikTracker.trackPageView(); piwikTracker.enableLinkTracking(); } catch( err ) {} </script><noscript><p><img src="http://sourceforge.net/apps/piwik/simplecaptcha/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript> <!-- End Piwik Tag -->
             ]]></bottom>
         </javadoc>
         <echo message="Javadocs built to docs/output/javadocs" />
